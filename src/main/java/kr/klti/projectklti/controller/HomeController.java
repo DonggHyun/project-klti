@@ -1,9 +1,7 @@
 package kr.klti.projectklti.controller;
 
-import kr.klti.projectklti.domain.User;
 import kr.klti.projectklti.dto.UserDto;
 import kr.klti.projectklti.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +52,7 @@ public class HomeController {
     public String join(@ModelAttribute UserDto userDto){
         userDto.setCreateReq(LocalDateTime.now().toString());
         userService.joinUser(userDto);
-        return "redirect:/login";
+        return "redirect:/loginview";
     }
     //--------------------------------------------
     @RequestMapping("/products")

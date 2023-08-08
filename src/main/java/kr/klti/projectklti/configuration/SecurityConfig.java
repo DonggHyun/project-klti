@@ -1,30 +1,29 @@
 package kr.klti.projectklti.configuration;
 
-import kr.klti.projectklti.domain.User;
 import kr.klti.projectklti.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final UserService userService;
+    private final AuthenticationSuccessHandler customAuthenticationSuccessHandler ;
     @Autowired
-    public SecurityConfig(UserService userService){
+    public SecurityConfig(UserService userService,
+                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler){
         this.userService=userService;
+        this.customAuthenticationSuccessHandler=customAuthenticationSuccessHandler;
     }
 
     @Bean // BCryptPasswordEncoder : 비밀번호 암호화 객체 - 비번 암호화해서 Bean에 등록
@@ -43,16 +42,14 @@ public class SecurityConfig {
 
             http
                     .authorizeRequests()
-                    .antMatchers("/").permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/").hasRole("MEMBER")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/loginview").permitAll()          // loginpage 설정
-                    .loginProcessingUrl("/login")        // 로그인 처리 URL
-                    .defaultSuccessUrl("/")
-                    .permitAll()
+                    .loginProcessingUrl("/login")
+                    .successHandler(customAuthenticationSuccessHandler)// 로그인 처리 URL
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .failureUrl("/failLogin")
