@@ -6,6 +6,7 @@ import kr.klti.projectklti.dto.UserDto;
 import kr.klti.projectklti.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.Transient;
 import javax.transaction.Transactional;
@@ -22,7 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor // 필드 생성자 자동 생성
-@Log4j2                 //추상화 역할 라이브러리
+@EnableTransactionManagement
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -35,21 +37,20 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Optional<User> users = userRepository.findByUserId(userId);
-        User user = users.get();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(1);
+        Optional<User> users = userRepository.findByUserId(username);
+        User user = users.orElseThrow(() -> new UsernameNotFoundException("User not found with userId: " + username));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        if (("admin").equals(userId)) {
+        if ("admin".equals(user.getUserId())) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
         }
-        int userPwErrCnt = Integer.getInteger(String.valueOf(user.getPwErrCnt()));
-        return new User(user.getMemId(), user.getRole(), user.getName(), user.getBirth(),
-                user.getGender(), user.getUserEmail(), user.getChangePassword(),
-                user.getPwYN(), user.getPwErrCnt(), user.getLastLoginDate(),
-                user.getCreateReq(), user.getReqDiv(), user.getUserId(), user.getPassword());
+        System.out.println(5);
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserId(), user.getPassword(), authorities
+        );
     }
 }

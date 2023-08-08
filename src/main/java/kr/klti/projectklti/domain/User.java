@@ -10,14 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name="user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User{
+public class User implements UserDetails{
 
     //회원 번호
     @Id
@@ -49,7 +47,7 @@ public class User{
     private String userId;
 
     //PW
-    @Column(length = 50)
+    @Column(length = 1000)
     private String password;
 
     //비밀번호 변경 일자
@@ -93,8 +91,38 @@ public class User{
         this.pwYN=pwYN;
         this.pwErrCnt=pwErrCnt;
         this.lastLoginDate=lastLoginDate;
-        this.changePassword=changePassword;
+        this.createReq=createReq;
         this.reqDiv=reqDiv;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+       Set<GrantedAuthority> roles= new HashSet<>();
+        return roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

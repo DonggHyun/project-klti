@@ -51,14 +51,14 @@ public class UserDto {
                 .birth(birth)
                 .gender(gender)
                 .userEmail(userEmail)
+                .userId(userId)
+                .password(password)
                 .changePassword(changePassword)
                 .pwYN(pwYN)
                 .pwErrCnt(pwErrCnt)
                 .lastLoginDate(lastLoginDate)
                 .createReq(createReq)
                 .reqDiv(reqDiv)
-                .userId(userId)
-                .password(password)
                 .build();
     }
 
@@ -78,7 +78,7 @@ public class UserDto {
         this.pwYN=pwYN;
         this.pwErrCnt=pwErrCnt;
         this.lastLoginDate=lastLoginDate;
-        this.changePassword=changePassword;
+        this.createReq=createReq;
         this.reqDiv=reqDiv;
     }
 }
