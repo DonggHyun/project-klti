@@ -24,9 +24,7 @@ public class HomeController {
         return "home";
     }
     @RequestMapping("/loginview")
-    public String login(){
-        return "login";
-    }
+    public String login(){return "login";}
     @RequestMapping("/products")
     public String products(){
         return "products";
