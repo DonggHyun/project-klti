@@ -1,6 +1,9 @@
 package kr.klti.projectklti.controller;
 
+import lombok.Getter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //테스트용 초기 컨트롤러입니다.
@@ -23,8 +26,13 @@ public class HomeController {
     public String edit(){
         return "home";
     }
-    @RequestMapping("/loginview")
-    public String login(){return "login";}
+    @GetMapping("/loginview")
+    public String loginview(){return "login";}
+
+    @PostMapping("/login")
+    public String login(){
+        return "redirect:/";
+    }
     @RequestMapping("/products")
     public String products(){
         return "products";
