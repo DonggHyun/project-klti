@@ -1,13 +1,25 @@
 package kr.klti.projectklti.controller;
 
+import kr.klti.projectklti.dto.UserDto;
+import kr.klti.projectklti.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.time.LocalDateTime;
 
 //테스트용 초기 컨트롤러입니다.
 //이름 html이름을 따서 만들었습니다.
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-    @RequestMapping("/")
+
+    private final UserService userService;
+
+    @GetMapping("/")
     public String home(){
         return "index";
     }
@@ -23,12 +35,28 @@ public class HomeController {
     public String edit(){
         return "home";
     }
-    @RequestMapping("/loginview")
-    public String login(){return "login";}
+    //----------------------------------------
+    @GetMapping("/loginview")
+    public String loginview(){return "login";}
+    @GetMapping("/admin")
+    public String admin(){return "admin";}
+    @GetMapping("/failLogin")
+    public String failLogin(){return "fail";}
+
+    @GetMapping("/join")
+    public String joinview(){return "join";}
+
+    @PostMapping("/login")
+    public String login(){return "redirect:/";}
+    @PostMapping("/join")
+    public String join(@ModelAttribute UserDto userDto){
+        userDto.setCreateReq(LocalDateTime.now().toString());
+        userService.joinUser(userDto);
+        return "redirect:/loginview";
+    }
+    //--------------------------------------------
     @RequestMapping("/products")
     public String products(){
         return "products";
     }
-
-
 }

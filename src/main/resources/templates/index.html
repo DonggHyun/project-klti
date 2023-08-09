@@ -30,7 +30,10 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars tm-nav-icon"></i>
                 </button>
-
+                <div th:if="${#request.isUserInRole('ADMIN')}">
+                    <!-- ADMIN 권한이 있는 경우에만 보이는 내용 -->
+                    <h1>Welcome, Admin!</h1>
+                </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto h-100">
                         <li class="nav-item">
