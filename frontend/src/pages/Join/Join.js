@@ -17,7 +17,6 @@ export default function Join() {
 
     const inputName = e => {
         setName(e.target.value);
-        console.log(name);
     };
     function inputBirth(e) {
         /*const selectedDate = e.target.value;
@@ -41,7 +40,6 @@ export default function Join() {
 
 
     function joinSubmit() {
-        console.log(name);
         axios.post('http://localhost:8080/api/join', {
             name: name,
             birth: '',      // 날짜 넣는법 더 알아보기

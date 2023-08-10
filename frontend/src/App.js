@@ -12,6 +12,8 @@ import Join from "./pages/Join/Join";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
+import Class from "./pages/Class/Class";
+import Admin from "./pages/Admin/Admin";
 
 
 
@@ -65,6 +67,8 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<Login />}></Route>
                 <Route path={"/user/join"} element={<Join />}></Route>
+                <Route path={"/class"} element={<Class />}></Route>
+                <Route path={"/admin"} element={<Admin />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>

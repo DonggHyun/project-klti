@@ -72,7 +72,7 @@ public class SecurityConfig {
                 .and()
                     .formLogin()
                     .loginPage("/loginview").permitAll()          // loginpage 설정
-                    .loginProcessingUrl("/login")
+                    .loginProcessingUrl("/api/login")
                     .successHandler(customAuthenticationSuccessHandler)// 로그인 처리 URL
                     .usernameParameter("username")
                     .passwordParameter("password")

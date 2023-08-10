@@ -1,15 +1,31 @@
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {useState} from "react";
 
 
 
 
 export default function Login() {
 
-/*    const movePage = useNavigate();
-    function goJoin() {
-        console.log('함수 실행');
-        movePage('/user/join');
-    }*/
+    const [userId, setUserId] = useState('');
+    const [password, setPassword] = useState('');
+
+    function loginSubmit() {
+
+        axios.post('http://localhost:8080/api/login', {
+            userId: userId,
+            password: password
+        })
+            .then(response => {
+                console.log('로그인 완료!');
+                console.log('response', response);
+                window.location.replace("/");
+            })
+            .catch(error => {
+                console.error('Error :', error);
+            });
+
+    }
 
     return (
         <>
@@ -24,7 +40,7 @@ export default function Login() {
                             </div>
                             <div className="row mt-2">
                                 <div className="col-12">
-                                    <form action="@{/login}" method="post" className="tm-login-form">
+                                    <form method="post" className="tm-login-form">
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <div className="form-group">
                                             <label htmlFor="username">userId</label>
@@ -34,6 +50,7 @@ export default function Login() {
                                                 className="form-control validate"
                                                 id="username"
                                                 required
+                                                onChange={(e) => {setUserId(e.target.value);}}
                                             />
                                         </div>
                                         <div className="form-group mt-3">
@@ -44,13 +61,15 @@ export default function Login() {
                                                 className="form-control validate"
                                                 id="password"
                                                 required
+                                                onChange={(e) => {setPassword(e.target.value);}}
                                             />
                                         </div>
                                         <div className="form-group mt-4">
                                             <input
-                                                type="submit"
+                                                type="button"
                                                 className="btn btn-primary btn-block text-uppercase"
                                                 value="Login"
+                                                onClick={loginSubmit}
                                             />
 
                                         </div>
