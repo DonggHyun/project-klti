@@ -4,10 +4,7 @@ import kr.klti.projectklti.dto.UserDto;
 import kr.klti.projectklti.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +34,7 @@ public class HomeController {
     }
     //----------------------------------------
     @GetMapping("/loginview")
-    public String loginview(){return "login";}
+    public String loginview(){return "redirect:/";}
     @GetMapping("/admin")
     public String admin(){return "admin";}
     @GetMapping("/failLogin")
@@ -48,12 +45,9 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(){return "redirect:/";}
-    @PostMapping("/join")
-    public String join(@ModelAttribute UserDto userDto){
-        userDto.setCreateReq(LocalDateTime.now().toString());
-        userService.joinUser(userDto);
-        return "redirect:/loginview";
-    }
+
+
+
     //--------------------------------------------
     @RequestMapping("/products")
     public String products(){
