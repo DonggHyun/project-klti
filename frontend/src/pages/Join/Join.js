@@ -19,11 +19,15 @@ export default function Join() {
         setName(e.target.value);
         console.log(name);
     };
-    function inputBirth(e) {
-        /*const selectedDate = e.target.value;
-        const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
-        e.target.value = formattedDate; // YYYYMMDD 형식으로 변경*/
-        setBirth(e.target.value);
+    // function inputBirth(e) {
+    //     /*const selectedDate = e.target.value;
+    //     const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
+    //     e.target.value = formattedDate; // YYYYMMDD 형식으로 변경*/
+    //     setBirth(e.target.value);
+    // }
+    function handleDateChange(e) {
+        const formattedDate = e.target.value.replace(/-/g, '');
+        setSelectedDate(formattedDate);
     }
     const inputGender = e => {
         setGender(e.target.value);
