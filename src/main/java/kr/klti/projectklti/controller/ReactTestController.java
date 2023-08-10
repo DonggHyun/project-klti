@@ -18,15 +18,22 @@ public class ReactTestController {
         return Arrays.asList("서버 포트는 8080", "리액트 포트는 3000");
     }
 
-    @GetMapping("/loginview")
+/*    @GetMapping("/loginview")
     public ResponseEntity<String> loginview() {
         String data = "Hello I'm data";
         return ResponseEntity.ok(data);
-    }
-    @GetMapping("/test")
+    }*/
+    @GetMapping("/api/test")
     public ResponseEntity<String> test() {
         String data = "test string";
         return ResponseEntity.ok(data);
     }
+
+/*    @GetMapping("/api/join")
+    public ResponseEntity<String> join() {
+        System.out.println("join controller");
+        String data = "join page";
+        return ResponseEntity.ok(data);
+    }*/
 
 }

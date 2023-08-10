@@ -54,7 +54,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static", "/api/**");
+        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static");
     }
 
 
@@ -77,6 +77,7 @@ public class SecurityConfig {
 
             http.cors().and()
                     .authorizeRequests()
+                    .antMatchers("/api/**").permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/").hasRole("MEMBER")
                     .anyRequest().authenticated()

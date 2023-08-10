@@ -4,6 +4,11 @@ import {useEffect, useState} from "react";
 import Test from "./components/Test/Test";
 import Example from "./components/Example/Example";
 import axios from "axios";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Join from "./pages/Join/Join";
+import Login from "./pages/Login/Login";
+import NotFound from "./pages/NotFound/NotFound";
+
 
 
 
@@ -32,29 +37,34 @@ function App() {
 
     const [data, setData] = useState('');
 
-    useEffect(() => {
-        axios.get('/api/loginview')
+    /*useEffect(() => {
+        axios.get('/api/test')
             .then(response => {
                 setData(response.data);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, []);*/
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (data) {
             console.log('Received data:', data);
         }
-    }, [data]);
+    }, [data]);*/
 
   return (
-    <div className="App">
-        <Test></Test>
-        <Example></Example>
-        {data}
-    </div>
+    <>
+        <BrowserRouter>
+            <Routes>
+                <Route path={"/"} element={<Login />}></Route>
+                <Route path={"/user/join"} element={<Join />}></Route>
+                <Route path={"*"} element={<NotFound />}></Route>
+            </Routes>
+        </BrowserRouter>
+
+    </>
   );
 }
 
