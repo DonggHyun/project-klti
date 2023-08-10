@@ -1,25 +1,72 @@
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {useState} from "react";
 
 
-function handleDateChange() {
-    const dateInput = document.getElementById('birth');
-    const selectedDate = dateInput.value;
-    const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
-    dateInput.value = formattedDate; // YYYYMMDD 형식으로 변경
-}
+
 
 export default function Join() {
 
-    const movePage = useNavigate();
-    function goHome() {
-        movePage('/');
+    const [name, setName] = useState('');
+    const [birth, setBirth] = useState('');
+    const [role, setRole] = useState('');
+    const [gender, setGender] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userId, setUserId] = useState('');
+    const [password, setPassword] = useState('');
+
+    const inputName = e => {
+        setName(e.target.value);
+        console.log(name);
+    };
+    function inputBirth(e) {
+        /*const selectedDate = e.target.value;
+        const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
+        e.target.value = formattedDate; // YYYYMMDD 형식으로 변경*/
+        setBirth(e.target.value);
     }
+    const inputGender = e => {
+        setGender(e.target.value);
+    };
+    const inputUserEmail = e => {
+        setUserEmail(e.target.value);
+    };
+    const inputUserId = e => {
+        setUserId(e.target.value);
+    };
+    const inputPassword = e => {
+        setPassword(e.target.value);
+    };
+
+
+
+    function joinSubmit() {
+        console.log(name);
+        axios.post('http://localhost:8080/api/join', {
+            name: name,
+            birth: '',      // 날짜 넣는법 더 알아보기
+            role: role,
+            gender: gender,
+            userEmail: userEmail,
+            userId: userId,
+            password: password
+        })
+            .then(response => {
+                console.log('회원가입 완료!');
+                console.log('response', response);
+                window.location.replace("/");
+            })
+            .catch(error => {
+                console.error('Error :', error);
+            });
+    }
+
 
     return (
         <>
-            <form action="@{/join}" method="post">
-                <p>이름 : <input type="text" name="name"/></p>
-                <p>생년월일 : <input type="date" id="birth" name="birth" onChange="handleDateChange()"/></p>
+            <form method="post">
+                <p>이름 : <input type="text" name="name" onChange={inputName}/></p>
+                <p>생년월일 : <input type="date" id="birth" name="birth" onChange={inputBirth}/></p>
                 <p>
                     신분 :
                     <select name="role">
@@ -29,15 +76,15 @@ export default function Join() {
                 </p>
                 <p>
                     성별 :
-                    <select name="gender">
+                    <select name="gender" onChange={inputGender}>
                         <option value="여">여</option>
                         <option value="남">남</option>
                     </select>
                 </p>
-                <p>이메일 : <input type="email" name="userEmail"/></p>
-                <p>ID : <input type="text" name="userId"/></p>
-                <p>패스워드 : <input type="password" name="password"/></p>
-                            <input type="submit" value="가입"/>
+                <p>이메일 : <input type="email" name="userEmail" onChange={inputUserEmail}/></p>
+                <p>ID : <input type="text" name="userId" onChange={inputUserId}/></p>
+                <p>패스워드 : <input type="password" name="password" onChange={inputPassword}/></p>
+                            <input type="button" value="가입" onClick={joinSubmit}/>
             </form>
         </>
     )

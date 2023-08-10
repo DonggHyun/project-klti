@@ -54,20 +54,9 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static");
+        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static", "/api/**");
     }
 
-
-/*    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
-        configuration.addAllowedHeader("*"); // 모든 헤더 허용
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }*/
 
 
 
@@ -77,7 +66,6 @@ public class SecurityConfig {
 
             http.cors().and()
                     .authorizeRequests()
-                    .antMatchers("/api/**").permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/").hasRole("MEMBER")
                     .anyRequest().authenticated()
