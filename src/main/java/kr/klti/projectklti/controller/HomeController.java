@@ -36,8 +36,8 @@ public class HomeController {
         return "home";
     }
     //----------------------------------------
-    /*@GetMapping("/loginview")
-    public String loginview(){return "login";}*/
+    @GetMapping("/loginview")
+    public String loginview(){return "login";}
     @GetMapping("/admin")
     public String admin(){return "admin";}
     @GetMapping("/failLogin")
