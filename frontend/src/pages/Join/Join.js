@@ -10,7 +10,7 @@ export default function Join() {
     const [name, setName] = useState('');
     const [birth, setBirth] = useState('');
     const [role, setRole] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('여');
     const [userEmail, setUserEmail] = useState('');
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
@@ -19,11 +19,8 @@ export default function Join() {
         setName(e.target.value);
     };
     function inputBirth(e) {
-        /*const selectedDate = e.target.value;
-        const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
-        e.target.value = formattedDate; // YYYYMMDD 형식으로 변경*/
         setBirth(e.target.value);
-    }
+    };
     const inputGender = e => {
         setGender(e.target.value);
     };
@@ -42,7 +39,7 @@ export default function Join() {
     function joinSubmit() {
         axios.post('http://localhost:8080/api/auth/join', {
             name: name,
-            birth: '',      // 날짜 넣는법 더 알아보기
+            birth: birth.replace(/-/g, ''),      // 날짜 넣는법 더 알아보기// 날짜 넣는법 더 알아보기
             role: role,
             gender: gender,
             userEmail: userEmail,
@@ -52,7 +49,9 @@ export default function Join() {
             .then(response => {
                 console.log('회원가입 완료!');
                 console.log('response', response);
-                window.location.replace("/");
+                if(response.status === 200) {
+                    window.location.replace("/");
+                }
             })
             .catch(error => {
                 console.error('Error :', error);
