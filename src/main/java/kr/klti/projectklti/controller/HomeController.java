@@ -1,12 +1,9 @@
 package kr.klti.projectklti.controller;
 
-import kr.klti.projectklti.dto.UserDto;
-import kr.klti.projectklti.service.UserService;
+import kr.klti.projectklti.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 //테스트용 초기 컨트롤러입니다.
 //이름 html이름을 따서 만들었습니다.
@@ -14,7 +11,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final UserService userService;
+    private final MemberService userService;
 
     @GetMapping("/")
     public String home(){

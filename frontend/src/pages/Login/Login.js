@@ -12,14 +12,16 @@ export default function Login() {
 
     function loginSubmit() {
 
-        axios.post('http://localhost:8080/api/login', {
+        axios.post('http://localhost:8080/api/auth/login', {
             userId: userId,
             password: password
         })
             .then(response => {
-                console.log('로그인 완료!');
-                console.log('response', response);
-                window.location.replace("/");
+                console.log('이동 전');
+                if(response.status === 200) {
+                    window.location.replace("/class");
+                }
+                console.log('이동 후');
             })
             .catch(error => {
                 console.error('Error :', error);

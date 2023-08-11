@@ -1,30 +1,28 @@
 package kr.klti.projectklti.domain;
 
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name="user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User implements UserDetails{
+public class Member implements UserDetails{
 
     //회원 번호
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memId;
-
-    //신분 구분..?
-    @Column
-    private String role;
 
     //성명
     @Column(length = 30)
@@ -74,13 +72,17 @@ public class User implements UserDetails{
     @Column(length = 10)
     private String reqDiv;
 
+    //접근권한 구분
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     @Builder
-    public User(Long memId,String role,String name,String birth,
-                String gender,String userEmail,String userId,String password,
-                String changePassword,String pwYN,int pwErrCnt,LocalDateTime lastLoginDate,String createReq,String reqDiv){
+    public Member(Long memId, String name, String birth,
+                  String gender, String userEmail, String userId, String password,
+                  String changePassword, String pwYN, int pwErrCnt, LocalDateTime lastLoginDate, String createReq, String reqDiv,
+                  Role role){
         this.memId=memId;
-        this.role=role;
         this.name=name;
         this.birth=birth;
         this.gender=gender;
@@ -93,6 +95,7 @@ public class User implements UserDetails{
         this.lastLoginDate=lastLoginDate;
         this.createReq=createReq;
         this.reqDiv=reqDiv;
+        this.role=role;
     }
 
     @Override

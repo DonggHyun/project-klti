@@ -40,7 +40,7 @@ export default function Join() {
 
 
     function joinSubmit() {
-        axios.post('http://localhost:8080/api/join', {
+        axios.post('http://localhost:8080/api/auth/join', {
             name: name,
             birth: '',      // 날짜 넣는법 더 알아보기
             role: role,

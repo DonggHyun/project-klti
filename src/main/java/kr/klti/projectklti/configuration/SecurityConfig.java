@@ -1,36 +1,51 @@
 package kr.klti.projectklti.configuration;
 
-import kr.klti.projectklti.service.UserService;
+import kr.klti.projectklti.service.MemberService;
+import kr.klti.projectklti.util.jwt.JwtAccessDeniedHandler;
+import kr.klti.projectklti.util.jwt.JwtAuthenticationEntryPoint;
+import kr.klti.projectklti.util.jwt.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
+@Component
 public class SecurityConfig {
 
-    private final UserService userService;
+    //private final MemberService memberService;
     private final AuthenticationSuccessHandler customAuthenticationSuccessHandler ;
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     @Autowired
-    public SecurityConfig(UserService userService,
-                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler){
-        this.userService=userService;
+    public SecurityConfig(//MemberService memberService,
+                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                          TokenProvider tokenProvider,
+                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          JwtAccessDeniedHandler jwtAccessDeniedHandler
+                          ){
+        //this.memberService=memberService;
         this.customAuthenticationSuccessHandler=customAuthenticationSuccessHandler;
+        this.tokenProvider = tokenProvider;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
-
 
 
 
@@ -54,7 +69,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static", "/api/**");
+        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/join", "/static", "/api/auth/**");
     }
 
 
@@ -63,7 +78,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println(2);
-
+/*
             http.cors().and()
                     .authorizeRequests()
                     .antMatchers("/admin").hasRole("ADMIN")
@@ -84,11 +99,31 @@ public class SecurityConfig {
 
 
             return http.build();
+ */
+        http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
+
+        return http.build();
+
     }
 
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-    }
+    /*public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
+    }*/
 
 
 }

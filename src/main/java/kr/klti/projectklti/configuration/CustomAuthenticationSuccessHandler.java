@@ -20,7 +20,7 @@ public class CustomAuthenticationSuccessHandler  implements org.springframework.
                                         Authentication authentication) throws IOException {
         System.out.println("로그인 핸들러 입장");
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        /*Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         String username = authentication.getName();
         String token = generateJwtToken(username);
@@ -34,12 +34,12 @@ public class CustomAuthenticationSuccessHandler  implements org.springframework.
                 response.sendRedirect("/admin");
                 return;
             }
-        }
+        }*/
 
         //response.sendRedirect("/admin");
     }
 
-    private String generateJwtToken(String username) {
+/*    private String generateJwtToken(String username) {
         // 토큰 생성 로직
         return Jwts.builder()
                 .setSubject(username)
@@ -47,5 +47,5 @@ public class CustomAuthenticationSuccessHandler  implements org.springframework.
                 .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60)) // 토큰 만료 시간을 60분으로 설정
                 .signWith(SignatureAlgorithm.HS512, "SECRET_KEY") // 서명 설정 필요
                 .compact();
-    }
+    }*/
 }
