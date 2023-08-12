@@ -17,14 +17,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.Filter;
+
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @Component
 public class SecurityConfig {
 
@@ -102,6 +104,8 @@ public class SecurityConfig {
  */
         http
                 .csrf().disable()
+                .httpBasic().disable()
+                .addFilter(corsFilter())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
@@ -112,6 +116,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/admin/**").access("hasRole('ADMIN')")
+                .antMatchers("/api/member/**").access("hasRole('MEMBER')")
                 .anyRequest().authenticated()
 
                 .and()

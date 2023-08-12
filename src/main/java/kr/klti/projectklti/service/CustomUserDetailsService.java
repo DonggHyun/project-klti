@@ -25,13 +25,14 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username + " 을 DB에서 찾을 수 없습니다"));
     }
 
+    //UserDetails 객체 생성하여 반환
     private UserDetails createUserDetails(Member member) {
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getRole().toString());
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_"+member.getRole().toString());
 
         return new User(
                 String.valueOf(member.getUserId()),
                 member.getPassword(),
-                Collections.singleton(grantedAuthority)
+                Collections.singleton(grantedAuthority) // 하나의 권한을 갖는 권한 목록을 생성
         );
     }
 }

@@ -3,6 +3,7 @@ package kr.klti.projectklti.util.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import kr.klti.projectklti.dto.PrincipalDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +41,17 @@ public class TokenProvider {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
-
-
     // 토큰 생성
     public TokenDto generateTokenDto(Authentication authentication) {
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
+        User user = (User) authentication.getPrincipal();
+        if (user.getUsername().equals("admin")) {
+            authorities = "ROLE_ADMIN";
+        }
         if(authorities == null || authorities.isEmpty()) {
             authorities = "ROLE_MEMBER";
         }

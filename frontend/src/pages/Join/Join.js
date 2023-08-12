@@ -1,4 +1,3 @@
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useState} from "react";
 
@@ -9,21 +8,20 @@ export default function Join() {
 
     const [name, setName] = useState('');
     const [birth, setBirth] = useState('');
-    const [role, setRole] = useState('');
-    const [gender, setGender] = useState('');
+    const [role, setRole] = useState('강사');
+    const [gender, setGender] = useState('여');
     const [userEmail, setUserEmail] = useState('');
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const [createReq, setCreateReq] = useState(new Date());
 
     const inputName = e => {
         setName(e.target.value);
     };
-    function inputBirth(e) {
-        /*const selectedDate = e.target.value;
-        const formattedDate = selectedDate.replace(/-/g, ''); // "-" 제거
-        e.target.value = formattedDate; // YYYYMMDD 형식으로 변경*/
-        setBirth(e.target.value);
-    }
+   function handleDateChange(e){
+       const formattedDate = e.target.value.replace(/-/g, '');
+       setBirth(formattedDate);
+   }
     const inputGender = e => {
         setGender(e.target.value);
     };
@@ -36,18 +34,23 @@ export default function Join() {
     const inputPassword = e => {
         setPassword(e.target.value);
     };
+    const inputCreateReq = e =>{
+        setCreateReq(new Date())
+    };
+
 
 
 
     function joinSubmit() {
         axios.post('http://localhost:8080/api/auth/join', {
             name: name,
-            birth: '',      // 날짜 넣는법 더 알아보기
+            birth: birth,      // 날짜 넣는법 더 알아보기
             role: role,
             gender: gender,
             userEmail: userEmail,
             userId: userId,
-            password: password
+            password: password,
+            createReq:createReq
         })
             .then(response => {
                 console.log('회원가입 완료!');
@@ -64,7 +67,7 @@ export default function Join() {
         <>
             <form method="post">
                 <p>이름 : <input type="text" name="name" onChange={inputName}/></p>
-                <p>생년월일 : <input type="date" id="birth" name="birth" onChange={inputBirth}/></p>
+                <p>생년월일 : <input type="date" id="birth" name="birth" onChange={handleDateChange}/></p>
                 <p>
                     신분 :
                     <select name="role">

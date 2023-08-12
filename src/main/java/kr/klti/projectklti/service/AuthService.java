@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +33,25 @@ public class AuthService {
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
+    //TokenProvider : TokenDto와 관련된 역할을 수행한느 클래스
+    //                 사용자 인증 정보를 기반으로 토큰을 생성, 관리
+    //                 생성된 토큰은 'TokenDto' 형식으로 반환
     public TokenDto login(MemberRequestDto requestDto) {
-        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+        try {
+            //인증에 사용되는 토큰
+            UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+            //인증에 성공하면 Authentication 객체에서 토큰을 담음..?
+            Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+            //authentication을 TokenDto로 변환
+            return tokenProvider.generateTokenDto(authentication);
 
-        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-
-        return tokenProvider.generateTokenDto(authentication);
+        }catch(AuthenticationException e){
+            return handleLoginFailure(e);
+        }
     }
-
+    private TokenDto handleLoginFailure(AuthenticationException e){
+        return TokenDto.builder()
+                .errorMessage("로그인 실패: "+e.getMessage())
+                .build();
+    }
 }

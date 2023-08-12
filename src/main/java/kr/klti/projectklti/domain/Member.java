@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity(name="user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member implements UserDetails{
+public class Member{
 
     //회원 번호
     @Id
@@ -98,34 +98,4 @@ public class Member implements UserDetails{
         this.role=role;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-       Set<GrantedAuthority> roles= new HashSet<>();
-        return roles;
-    }
-
-    @Override
-    public String getUsername() {
-        return userId;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
