@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useState} from "react";
+import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 
 
 
@@ -9,6 +10,7 @@ export default function Login() {
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const [test, setTest] = useState('');
 
     function loginSubmit() {
 
@@ -17,11 +19,14 @@ export default function Login() {
             password: password
         })
             .then(response => {
-                console.log('이동 전');
-                if(response.status === 200) {
+                console.log('response', response);
+                loginTokenHandler(response.data.accessToken, response.data.tokenExpiresIn);
+                console.log(retrieveStoredToken().token);
+                console.log(retrieveStoredToken().duration);
+                setTest(retrieveStoredToken().token)
+                /*if(response.status === 200) {
                     window.location.replace("/class");
-                }
-                console.log('이동 후');
+                }*/
             })
             .catch(error => {
                 console.error('Error :', error);
@@ -82,6 +87,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            {test}
         </>
     )
 }

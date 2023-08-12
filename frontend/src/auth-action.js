@@ -20,6 +20,8 @@ const calculateRemainingTime = (expirationTime) => {
 
 /* 토큰과 만료시간을 받아서 localStorage에 저장 및 남은시간 반환 */
 export const loginTokenHandler = (token, expirationTime) => {
+    console.log('AUTH-ACTION');
+    console.log('token', token);
     localStorage.setItem('token', token);
     localStorage.setItem('expirationTime', String(expirationTime));
 
@@ -50,16 +52,16 @@ export const retrieveStoredToken = () => {
 
 
 /*export const signupActionHandler = (email, password, nickname) => {
-    const URL = '/auth/signup'
-    const signupObject = { email, password, nickname };
+    const URL = '/api/auth/join'
+    const signupObject = { userId, password };
 
     const response = POST(URL, signupObject, {});
     return response;
 };
 
 export const loginActionHandler = (email, password) => {
-    const URL = '/auth/login';
-    const loginObject = { email, password };
+    const URL = '/api/auth/login';
+    const loginObject = { userId, password };
     const response = POST(URL, loginObject, {});
 
     return response;

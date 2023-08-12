@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useState} from "react";
 
@@ -55,7 +56,9 @@ export default function Join() {
             .then(response => {
                 console.log('회원가입 완료!');
                 console.log('response', response);
-                window.location.replace("/");
+                if(response.status === 200) {
+                    window.location.replace("/");
+                }
             })
             .catch(error => {
                 console.error('Error :', error);
