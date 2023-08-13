@@ -6,10 +6,9 @@ import kr.klti.projectklti.service.AuthService;
 import kr.klti.projectklti.util.jwt.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,4 +25,15 @@ public class AuthController {
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
     }
+
+
+    /* 토큰을 통해 회원 권한 조회 */
+    @GetMapping("/role")
+    public ResponseEntity<String> getRole(HttpServletRequest request) {
+        String role = authService.getRole(request);
+        return ResponseEntity.ok(role);
+    }
+
+
+
 }
