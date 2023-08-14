@@ -31,6 +31,12 @@ function Class() {
     const maskPassword = (password) => {
         return '*****'; // Replace with your masking logic if needed
     };
+    const formatBirth = (birth) => {
+        const year = birth.substring(0, 4);
+        const month = birth.substring(4, 6);
+        const day = birth.substring(6, 8);
+        return `${year}년 ${month}월 ${day}일`;
+    };
 
     return (
         <>
@@ -52,7 +58,7 @@ function Class() {
                         </tr>
                         <tr>
                             <td className="class_td_1">생년월일</td>
-                            <td className="class_td_2">{studentInfo.birth}</td>
+                            <td className="class_td_2">{formatBirth(studentInfo.birth)}</td>
                         </tr>
                         <tr>
                             <td className="class_td_1">성별</td>
