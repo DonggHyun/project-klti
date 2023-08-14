@@ -68,9 +68,6 @@ public class Member{
     @Column
     private String createReq;
 
-    //신청 내역 구분
-    @Column(length = 10)
-    private String reqDiv;
 
     //접근권한 구분
     @Enumerated(EnumType.STRING)
@@ -80,7 +77,7 @@ public class Member{
     @Builder
     public Member(Long memId, String name, String birth,
                   String gender, String userEmail, String userId, String password,
-                  String changePassword, String pwYN, int pwErrCnt, LocalDateTime lastLoginDate, String createReq, String reqDiv,
+                  String changePassword, String pwYN, int pwErrCnt, LocalDateTime lastLoginDate, String createReq,
                   Role role){
         this.memId=memId;
         this.name=name;
@@ -94,7 +91,6 @@ public class Member{
         this.pwErrCnt=pwErrCnt;
         this.lastLoginDate=lastLoginDate;
         this.createReq=createReq;
-        this.reqDiv=reqDiv;
         this.role=role;
     }
 

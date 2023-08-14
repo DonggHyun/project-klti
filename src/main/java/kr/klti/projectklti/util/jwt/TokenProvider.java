@@ -41,6 +41,7 @@ public class TokenProvider {
         this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
+
     // 토큰 생성
     public TokenDto generateTokenDto(Authentication authentication) {
 
@@ -49,7 +50,7 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
         User user = (User) authentication.getPrincipal();
-        if (user.getUsername().equals("admin")) {
+        if(authorities.equals("ADMIN")){
             authorities = "ROLE_ADMIN";
         }
         if(authorities == null || authorities.isEmpty()) {
@@ -57,6 +58,7 @@ public class TokenProvider {
         }
 
         long now = (new Date()).getTime();
+
 
 
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);

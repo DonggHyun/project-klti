@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +45,6 @@ public class AuthService {
             Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
             //authentication을 TokenDto로 변환
             return tokenProvider.generateTokenDto(authentication);
-
         }catch(AuthenticationException e){
             return handleLoginFailure(e);
         }

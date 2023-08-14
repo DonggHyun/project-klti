@@ -19,14 +19,5 @@ public class MemberController {
     public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
         return ResponseEntity.ok((myInfoBySecurity));
-        // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
-
-    /*
-    @PostMapping("/password")
-    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto request) {
-        return ResponseEntity.ok(memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword()));
-    }
-     */
-
 }

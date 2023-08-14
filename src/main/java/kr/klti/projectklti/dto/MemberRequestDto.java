@@ -27,7 +27,6 @@ public class MemberRequestDto {
     private int pwErrCnt;
     private LocalDateTime lastLoginDate;
     private String createReq;
-    private String reqDiv;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
@@ -42,7 +41,6 @@ public class MemberRequestDto {
                 .pwErrCnt(pwErrCnt)
                 .lastLoginDate(LocalDateTime.now())
                 .createReq(createReq)
-                .reqDiv(reqDiv)
                 .role(Role.MEMBER)
                 .build();
     }
