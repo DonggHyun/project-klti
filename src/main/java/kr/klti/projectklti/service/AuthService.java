@@ -4,6 +4,7 @@ import kr.klti.projectklti.domain.Member;
 import kr.klti.projectklti.dto.MemberRequestDto;
 import kr.klti.projectklti.dto.MemberResponseDto;
 import kr.klti.projectklti.repository.MemberRepository;
+import kr.klti.projectklti.util.jwt.JwtFilter;
 import kr.klti.projectklti.util.jwt.TokenDto;
 import kr.klti.projectklti.util.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -24,6 +27,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final JwtFilter jwtFilter;
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByUserId(requestDto.getUserId())) {
@@ -54,4 +58,15 @@ public class AuthService {
                 .errorMessage("로그인 실패: "+e.getMessage())
                 .build();
     }
+
+
+    public String getRole(HttpServletRequest request) {
+        Authentication auth = tokenProvider.getAuthentication(jwtFilter.resolveToken(request));
+        System.out.println("AUTH SERVICE");
+        System.out.println(auth.getAuthorities());
+        String role = (auth.getAuthorities().toArray()[0].toString()).substring(5);
+        System.out.println(role);
+        return role;
+    }
+
 }

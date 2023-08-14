@@ -21,9 +21,6 @@ export default function Login() {
             .then(response => {
                 console.log('response', response);
                 loginTokenHandler(response.data.accessToken, response.data.tokenExpiresIn);
-                console.log(retrieveStoredToken().token);
-                localStorage.setItem("token",retrieveStoredToken().token);
-                console.log(retrieveStoredToken().duration);
                 setTest(retrieveStoredToken().token)
                 if(response.status === 200) {
                     window.location.replace("/class");
@@ -88,7 +85,6 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            {test}
         </>
     )
 }

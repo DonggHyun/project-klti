@@ -14,31 +14,68 @@ import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Class from "./pages/Class/Class";
 import Admin from "./pages/Admin/Admin";
-import jwt from "jsonwebtoken";
+import RouteAdmin from "./pages/RouteAdmin/RouteAdmin";
+
+
+
+
 
 
 function App() {
 
-    const [message, setMessage] = useState([]);
+  const [message, setMessage]=useState([]);
+  /*useEffect(()=>{
+    fetch("/loginview", { headers:
+      {'Accept':'application/json',
+       'Content-Type':'application/json'}
+      }).then((res)=>{
+          console.log(res);
+          return res.json();
+          //return res.text();
+        })
+        .then((data)=>{
+            console.log('data', data);
+          setMessage(data);
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+  },[]);*/
 
     const [data, setData] = useState('');
 
-    const [userRole, setUserRole] = useState(""); // 유저의 역할 정보를 저장할 state
+    /*useEffect(() => {
+        axios.get('/api/test')
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);*/
 
-    return (
-        <>
-            <BrowserRouter>
-                <Header></Header>
-                <Routes>
-                    <Route path={"/"} element={<Login/>}></Route>
-                    <Route path={"/user/join"} element={<Join/>}></Route>
-                    <Route path={"/class"} element={<Class/>}></Route>
-                    <Route path={"/admin"} element={<Admin/>}></Route>
-                    <Route path={"*"} element={<NotFound/>}></Route>
-                </Routes>
-            </BrowserRouter>
-        </>
-    );
+
+    /*useEffect(() => {
+        if (data) {
+            console.log('Received data:', data);
+        }
+    }, [data]);*/
+
+  return (
+    <>
+        <BrowserRouter>
+            <Header></Header>
+            <Routes>
+                <Route path={"/"} element={<Login />}></Route>
+                <Route path={"/user/join"} element={<Join />}></Route>
+                <Route path={"/class"} element={<Class />}></Route>
+                <Route path={"/class"} element={<Class />}></Route>
+                <Route path={"/admin"} element={<RouteAdmin />}></Route>
+                <Route path={"*"} element={<NotFound />}></Route>
+            </Routes>
+        </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
