@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useState} from "react";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
-
+import style from './Login.module.css';
 
 
 export default function Login() {
@@ -36,11 +36,11 @@ export default function Login() {
         <>
             <div className="container tm-mt-big tm-mb-big">
                 <div className="row">
-                    <div className="col-12 mx-auto tm-login-col">
-                        <div className="tm-bg-primary-dark tm-block tm-block-h-auto">
+                    <div className={style.loginBox}>
+                        <div className={style.block}>
                             <div className="row">
                                 <div className="col-12 text-center">
-                                    <h2 className="tm-block-title mb-4">Welcome to Dashboard, Login</h2>
+                                    <h2 className="tm-block-title mb-4">Login</h2>
                                 </div>
                             </div>
                             <div className="row mt-2">
