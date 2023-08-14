@@ -4,6 +4,7 @@ import {useState} from "react";
 import {retrieveStoredToken} from "../../auth-action";
 import Admin from "../Admin/Admin";
 import NotFound from "../NotFound/NotFound";
+import ContentManagement from "../../components/ContentManagement/ContentManagement";
 
 
 export default function RouteAdmin() {
@@ -30,7 +31,7 @@ export default function RouteAdmin() {
 
     if(role === 'ADMIN') {
         return (
-            <Admin />
+            <ContentManagement />
         )
     } else {
         return (
