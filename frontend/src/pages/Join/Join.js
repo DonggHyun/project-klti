@@ -61,10 +61,10 @@ export default function Join() {
 
     const inputPasswordCheck = e => {
         setPasswordCheck(e.target.value);
+        checkPasswordMatch();
         if(password === e.target.value){
             setPasswordError('');
         }
-        checkPasswordMatch();
     };
 
     function handleFormSubmit(e) {
