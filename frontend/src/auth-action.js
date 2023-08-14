@@ -50,52 +50,8 @@ export const retrieveStoredToken = () => {
 }
 
 
-
-/*export const signupActionHandler = (email, password, nickname) => {
-    const URL = '/api/auth/join'
-    const signupObject = { userId, password };
-
-    const response = POST(URL, signupObject, {});
-    return response;
-};
-
-export const loginActionHandler = (email, password) => {
-    const URL = '/api/auth/login';
-    const loginObject = { userId, password };
-    const response = POST(URL, loginObject, {});
-
-    return response;
-};*/
-
-
 /* 로그아웃 시 토큰과 만료시간 삭제 */
 export const logoutActionHandler = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationTime');
 };
-
-
-/*export const getUserActionHandler = (token) => {
-    const URL = '/member/me';
-    const response = GET(URL, createTokenHeader(token));
-    return response;
-}
-
-export const changeNicknameActionHandler = ( nickname, token) => {
-    const URL = '/member/nickname';
-    const changeNicknameObj = { nickname };
-    const response = POST(URL, changeNicknameObj, createTokenHeader(token));
-
-    return response;
-}
-
-export const changePasswordActionHandler = (
-    exPassword,
-    newPassword,
-    token
-) => {
-    const URL = '/member/password';
-    const changePasswordObj = { exPassword, newPassword }
-    const response = POST(URL, changePasswordObj, createTokenHeader(token));
-    return response;
-}*/

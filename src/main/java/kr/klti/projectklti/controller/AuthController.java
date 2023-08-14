@@ -3,6 +3,7 @@ package kr.klti.projectklti.controller;
 import kr.klti.projectklti.dto.MemberRequestDto;
 import kr.klti.projectklti.dto.MemberResponseDto;
 import kr.klti.projectklti.service.AuthService;
+import kr.klti.projectklti.service.MemberService;
 import kr.klti.projectklti.util.jwt.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final MemberService memberService;
 
     @PostMapping("/join")
     public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto) {
@@ -32,6 +34,12 @@ public class AuthController {
     public ResponseEntity<String> getRole(HttpServletRequest request) {
         String role = authService.getRole(request);
         return ResponseEntity.ok(role);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        return ResponseEntity.ok((myInfoBySecurity));
     }
 
 
