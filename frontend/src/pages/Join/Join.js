@@ -8,6 +8,7 @@ export default function Join() {
 
     const [name, setName] = useState('');
     const [birth, setBirth] = useState('');
+
     const [gender, setGender] = useState('여');
     const [userEmail, setUserEmail] = useState('');
     const [userId, setUserId] = useState('');
