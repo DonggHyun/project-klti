@@ -13,12 +13,9 @@ import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Class from "./pages/Class/Class";
-import Admin from "./pages/Admin/Admin";
-import StudentLecture from "./pages/Student/StudentLecture";
 import RouteAdmin from "./pages/RouteAdmin/RouteAdmin";
+import StudentLecture from "./pages/Student/StudentLecture";
 import LectureProgress from "./pages/LectureControl/LectureProgress";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 
 

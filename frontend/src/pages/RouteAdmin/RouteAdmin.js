@@ -19,7 +19,6 @@ export default function RouteAdmin() {
             }
         })
             .then(response => {
-                console.log('response', response);
                 setRole(response.data);
             })
             .catch(error => {
