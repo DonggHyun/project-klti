@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 
 @Component
 public class CustomAuthenticationSuccessHandler  implements org.springframework.security.web.authentication.AuthenticationSuccessHandler {
@@ -15,15 +16,6 @@ public class CustomAuthenticationSuccessHandler  implements org.springframework.
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-        for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                response.sendRedirect("/admin");
-                return;
-            }
-        }
-
-        response.sendRedirect("/");
+        System.out.println("로그인 핸들러 입장");
     }
 }

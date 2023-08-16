@@ -1,0 +1,52 @@
+#joinBody{
+    margin: 0 auto;
+    width: 400px;
+}
+#joinBody>h3{
+    margin: 30px auto -20px auto;
+    text-align: center;
+    font-weight: bolder;
+}
+#jointable{
+    margin-top: 50px;
+}
+.join_td_2{
+   padding-left: 20px;
+    padding-top: 5px;
+}
+.join_td_2>input{
+    border: 1px #567086 solid;
+    width: 200px;
+    padding-left: 5px;
+}
+.join_td_2>input:hover {
+    cursor: pointer;
+}
+.join_td_2>input:focus {
+    background-color: #56708650;
+}
+.join_btn{
+    text-align: center;
+    padding-top: 10px;
+}
+.join_btn_inner{
+    outline: none;
+    border: none;
+    width: 50%;
+    height: 30px;
+    background-color: #567086;
+    color: white;
+}
+.join_btn_inner:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+.error_message{
+    color: red;
+}
+.error_td{
+    text-align: center;
+}
+.join_password{
+    text-align: right;
+}
