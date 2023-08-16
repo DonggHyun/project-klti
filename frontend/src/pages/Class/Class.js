@@ -68,6 +68,9 @@ function Class() {
                             <td className="class_td_1">이메일</td>
                             <td className="class_td_2">{studentInfo.userEmail}</td>
                         </tr>
+                        <tr>
+                            <td colSpan="2"><input type="" value="비밀번호 변경하기" onClick=""/></td>
+                        </tr>
                     </table>
                 </form>
             </div>
