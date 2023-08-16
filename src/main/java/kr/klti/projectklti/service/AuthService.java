@@ -17,7 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +48,12 @@ public class AuthService {
         try {
             //인증에 사용되는 토큰
             UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+           Member member = requestDto.toMember(passwordEncoder);
             //인증에 성공하면 Authentication 객체에서 토큰을 담음..?
             Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+
+            updateMemberInfo(requestDto.getUserId(),requestDto);
+
             //authentication을 TokenDto로 변환
             return tokenProvider.generateTokenDto(authentication);
         }catch(AuthenticationException e){
@@ -59,6 +66,34 @@ public class AuthService {
                 .build();
     }
 
+    private void updateMemberInfo(String memberId, MemberRequestDto requestDto){
+
+        Optional<Member> member = memberRepository.findByUserId(memberId);
+
+        System.out.println("ID: "+memberId);
+        if(!member.isPresent()){
+            throw new EntityNotFoundException("회원을 찾을 수 없습니다: "+memberId);
+        }
+        Member memberResult = member.get();
+        System.out.println("memberId: "+memberResult.getUserId());
+        Member updateMember = Member.builder()
+                .memId(memberResult.getMemId())
+                .name(memberResult.getName())
+                .birth(memberResult.getBirth())
+                .gender(memberResult.getGender())
+                .userEmail(memberResult.getUserEmail())
+                .userId(memberResult.getUserId())
+                .password(memberResult.getPassword())
+                .changePassword(memberResult.getChangePassword())
+                .pwYN(memberResult.getPwYN())
+                .pwErrCnt(memberResult.getPwErrCnt())
+                .lastLoginDate(LocalDateTime.now())
+                .createReq(memberResult.getCreateReq())
+                .role(memberResult.getRole())
+                .build();
+
+        memberRepository.save(updateMember);
+    }
 
     public String getRole(HttpServletRequest request) {
         Authentication auth = tokenProvider.getAuthentication(jwtFilter.resolveToken(request));

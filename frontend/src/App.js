@@ -14,6 +14,9 @@ import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Class from "./pages/Class/Class";
 import RouteAdmin from "./pages/RouteAdmin/RouteAdmin";
+import StudentLecture from "./pages/Student/StudentLecture";
+import LectureProgress from "./pages/LectureControl/LectureProgress";
+
 
 
 
@@ -65,8 +68,10 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<Login />}></Route>
                 <Route path={"/user/join"} element={<Join />}></Route>
+                <Route path={"/user/StudentLecture"} element={<StudentLecture />}></Route>
                 <Route path={"/class"} element={<Class />}></Route>
                 <Route path={"/admin"} element={<RouteAdmin />}></Route>
+                <Route path={"/admin/LectureProgress"} element={<LectureProgress />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>
