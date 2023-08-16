@@ -47,7 +47,11 @@ export default function HeaderLinks() {
                     강의관리
                 </li>
                 <li className="nav-item">
-                    수강현황
+                    <NavLink to="/admin/LectureProgress"
+                             className={({ isActive }) => (isActive ? styles.active : "")}
+                    >
+                        수강현황
+                    </NavLink>
                 </li>
 
                 <li className="nav-item">
@@ -61,8 +65,13 @@ export default function HeaderLinks() {
                 <li className="nav-item">
                     나의정보
                 </li>
+                
                 <li className="nav-item">
-                    강의수강
+                    <NavLink to="/user/StudentLecture"
+                             className={({ isActive }) => (isActive ? styles.active : "")}
+                    >
+                        강의수강
+                    </NavLink>
                 </li>
                 <li className="nav-item">
                     수강신청
