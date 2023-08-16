@@ -1,5 +1,7 @@
 package kr.klti.projectklti.service;
 
+import jdk.jshell.Snippet;
+import kr.klti.projectklti.configuration.RedisRepositoryConfig;
 import kr.klti.projectklti.domain.Member;
 import kr.klti.projectklti.dto.MemberRequestDto;
 import kr.klti.projectklti.dto.MemberResponseDto;
@@ -8,6 +10,9 @@ import kr.klti.projectklti.util.jwt.JwtFilter;
 import kr.klti.projectklti.util.jwt.TokenDto;
 import kr.klti.projectklti.util.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.engine.spi.Status;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -21,6 +26,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +37,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final JwtFilter jwtFilter;
+    private final RedisRepositoryConfig redisRepositoryConfig;
+    private final RedisTemplate redisTemplate;
 
     public MemberResponseDto signup(MemberRequestDto requestDto) {
         if (memberRepository.existsByUserId(requestDto.getUserId())) {
@@ -48,34 +56,39 @@ public class AuthService {
         try {
             //인증에 사용되는 토큰
             UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-           Member member = requestDto.toMember(passwordEncoder);
+            Member member = requestDto.toMember(passwordEncoder);
             //인증에 성공하면 Authentication 객체에서 토큰을 담음..?
             Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
-            updateMemberInfo(requestDto.getUserId(),requestDto);
+            //로그인 시간 업데이트
+            updateMemberInfo(requestDto.getUserId(), requestDto);
 
-            //authentication을 TokenDto로 변환
+            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+            redisRepositoryConfig.redisTemplate().opsForValue().set("RT:"+member.getUserId(),tokenDto.getAccessToken(),tokenDto.getTokenExpiresIn(), TimeUnit.MILLISECONDS);
+
             return tokenProvider.generateTokenDto(authentication);
-        }catch(AuthenticationException e){
+        } catch (AuthenticationException e) {
             return handleLoginFailure(e);
         }
     }
-    private TokenDto handleLoginFailure(AuthenticationException e){
+
+    private TokenDto handleLoginFailure(AuthenticationException e) {
         return TokenDto.builder()
-                .errorMessage("로그인 실패: "+e.getMessage())
+                .errorMessage("로그인 실패: " + e.getMessage())
                 .build();
     }
 
-    private void updateMemberInfo(String memberId, MemberRequestDto requestDto){
+    //로그인 할 때마다 회원 찾아서 로그인 시간 업데이트
+    private void updateMemberInfo(String memberId, MemberRequestDto requestDto) {
 
         Optional<Member> member = memberRepository.findByUserId(memberId);
 
-        System.out.println("ID: "+memberId);
-        if(!member.isPresent()){
-            throw new EntityNotFoundException("회원을 찾을 수 없습니다: "+memberId);
+        System.out.println("ID: " + memberId);
+        if (!member.isPresent()) {
+            throw new EntityNotFoundException("회원을 찾을 수 없습니다: " + memberId);
         }
         Member memberResult = member.get();
-        System.out.println("memberId: "+memberResult.getUserId());
+        System.out.println("memberId: " + memberResult.getUserId());
         Member updateMember = Member.builder()
                 .memId(memberResult.getMemId())
                 .name(memberResult.getName())
@@ -104,4 +117,11 @@ public class AuthService {
         return role;
     }
 
+    public void logout(HttpServletRequest request) {
+        String accessToken = request.getHeader("Authorization").substring(7);
+        Long expiration = tokenProvider.getExpiration(accessToken);
+        redisTemplate.opsForValue().set(accessToken,"logout",expiration,TimeUnit.MILLISECONDS);
+
+        SecurityContextHolder.clearContext();
+    }
 }

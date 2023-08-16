@@ -120,4 +120,10 @@ public class TokenProvider {
         }
     }
 
+    //getExpiration을 추가해준다. 현재 accessToken의 접근 가능 시간을 없애고 blacklist로 올린다.
+    public Long getExpiration(String accessToken){
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        Long now = new Date().getTime();
+        return(expiration.getTime()-now);
+    }
 }
