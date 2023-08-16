@@ -1,0 +1,26 @@
+.container {
+    margin: 0;
+    width: 100%;
+    border: 1px #ced4da solid;
+}
+
+.grid_box {
+    width: 100%;
+}
+.grid_row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    padding: 5px;
+}
+
+.textarea {
+    resize: none;
+}
+
+.flex_box {
+    display: flex;
+}
+.btn {
+    margin-left: 5px;
+}

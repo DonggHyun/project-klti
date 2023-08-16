@@ -13,11 +13,7 @@ import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Class from "./pages/Class/Class";
-import Admin from "./pages/Admin/Admin";
 import RouteAdmin from "./pages/RouteAdmin/RouteAdmin";
-/*import 'bootstrap/dist/css/bootstrap.min.css';*/
-
-
 
 
 

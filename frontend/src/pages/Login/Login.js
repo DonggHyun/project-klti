@@ -19,7 +19,6 @@ export default function Login() {
             password: password
         })
             .then(response => {
-                console.log('response', response);
                 loginTokenHandler(response.data.accessToken, response.data.tokenExpiresIn);
                 setTest(retrieveStoredToken().token)
                 if(response.status === 200) {

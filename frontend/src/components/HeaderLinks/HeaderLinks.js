@@ -27,7 +27,6 @@ export default function HeaderLinks() {
             }
         })
             .then(response => {
-                console.log('response', response);
                 setRole(response.data);
             })
             .catch(error => {
