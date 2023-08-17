@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -64,7 +66,7 @@ public class AuthService {
             updateMemberInfo(requestDto.getUserId(), requestDto);
 
             TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-            redisRepositoryConfig.redisTemplate().opsForValue().set("RT:"+member.getUserId(),tokenDto.getAccessToken(),tokenDto.getTokenExpiresIn(), TimeUnit.MILLISECONDS);
+            redisRepositoryConfig.redisTemplate().opsForValue().set("RT:"+authentication.getName(),tokenDto.getAccessToken(),tokenDto.getTokenExpiresIn(), TimeUnit.MILLISECONDS);
 
             return tokenProvider.generateTokenDto(authentication);
         } catch (AuthenticationException e) {
@@ -119,8 +121,11 @@ public class AuthService {
 
     public void logout(HttpServletRequest request) {
         String accessToken = request.getHeader("Authorization").substring(7);
+        Calendar calendar = Calendar.getInstance();
+        long time = calendar.getTimeInMillis();
+        //해당 토큰 유효시간 가져와서 BlackList로 저장
         Long expiration = tokenProvider.getExpiration(accessToken);
-        redisTemplate.opsForValue().set(accessToken,"logout",expiration,TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(accessToken,"logout",time+1,TimeUnit.MILLISECONDS);
 
         SecurityContextHolder.clearContext();
     }
