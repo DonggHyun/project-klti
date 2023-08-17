@@ -23,7 +23,8 @@
     cursor: pointer;
 }
 .join_td_2>input:focus {
-    background-color: #56708650;
+    outline: none;
+    box-shadow: #567086 0px 3px 8px;
 }
 .join_btn{
     text-align: center;

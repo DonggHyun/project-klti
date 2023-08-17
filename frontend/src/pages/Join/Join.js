@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useState} from "react";
 import './join.css';
-
+import React from 'react';
 
 export default function Join() {
 
@@ -63,7 +63,7 @@ export default function Join() {
     const inputPasswordCheck = e => {
         setPasswordCheck(e.target.value);
         checkPasswordMatch();
-        if(password === e.target.value){
+        if (password === e.target.value) {
             setPasswordError('');
         }
     };
@@ -101,7 +101,7 @@ export default function Join() {
             userEmail: userEmail,
             userId: userId,
             password: password,
-            role:role,
+            role: role,
             createReq: createReq,
             changePassword: changePassword
         })
@@ -137,7 +137,7 @@ export default function Join() {
                                 성별
                             </td>
                             <td className="join_td_2">
-                                <select name="gender" onChange={inputGender} required>
+                                <select name="gender" onChange={inputGender}  required>
                                     <option value="여">여</option>
                                     <option value="남">남</option>
                                 </select>
@@ -177,7 +177,7 @@ export default function Join() {
                     </table>
                 </form>
             </div>
+
         </>
     )
 }
-
