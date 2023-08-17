@@ -27,7 +27,6 @@ export default function HeaderLinks() {
             }
         })
             .then(response => {
-                console.log('response', response);
                 setRole(response.data);
             })
             .catch(error => {
@@ -51,52 +50,60 @@ export default function HeaderLinks() {
     }
 
     roleTest();
-
-    if(token) {
-        if (role === 'ADMIN') {
-            return (
-                <ul className="navbar-nav h-100 ml-4">
-                    <li className="nav-item">
-                        콘텐츠관리
-                    </li>
-                    <li className="nav-item">
-                        강의관리
-                    </li>
-                    <li className="nav-item">
+if(token) {
+    if(role === 'ADMIN') {
+        return (
+            <ul className="navbar-nav h-100 ml-4">
+                <li className="nav-item">
+                    콘텐츠관리
+                </li>
+                <li className="nav-item">
+                    강의관리
+                </li>
+                <li className="nav-item">
+                    <NavLink to="/admin/LectureProgress"
+                             className={({ isActive }) => (isActive ? styles.active : "")}
+                    >
                         수강현황
-                    </li>
+                    </NavLink>
+                </li>
 
-                    <li className="nav-item" onClick={logout}>
-                        로그아웃
-                    </li>
-                </ul>
-            )
-        } else {
-            return (
-                <ul className="navbar-nav h-100 ml-4">
-                    <li className="nav-item">
-                        나의정보
-                    </li>
-                    <li className="nav-item">
+                <li className="nav-item" onClick={logout}>
+                    로그아웃
+                </li>
+            </ul>
+        )
+    } else {
+        return (
+            <ul className="navbar-nav h-100 ml-4">
+                <li className="nav-item">
+                    나의정보
+                </li>
+                
+                <li className="nav-item">
+                    <NavLink to="/user/StudentLecture"
+                             className={({ isActive }) => (isActive ? styles.active : "")}
+                    >
                         강의수강
-                    </li>
-                    <li className="nav-item">
-                        수강신청
-                    </li>
-                    <li className="nav-item" onClick={logout}>
-                        로그아웃
-                    </li>
-                    <li>
-                        <NavLink to="/user/join"
-                                 className={({isActive}) => (isActive ? styles.active : "")}
-                        >
-                            회원가입
-                        </NavLink>
-                    </li>
-                </ul>
-            )
+                    </NavLink>
+                </li>
+                <li className="nav-item">
+                    수강신청
+                </li>
+                <li className="nav-item" onClick={logout}>
+                    로그아웃
+                </li>
+                <li>
+                    <NavLink to="/user/join"
+                             className={({ isActive }) => (isActive ? styles.active : "")}
+                    >
+                        회원가입
+                    </NavLink>
+                </li>
+            </ul>
+        )
 
-        }
+  }
     }else{
         if (role === 'ADMIN') {
             return (
