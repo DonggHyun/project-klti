@@ -34,8 +34,23 @@ export default function HeaderLinks() {
             });
     }
 
-    roleTest();
+    function logout() {
+        axios.post('http://localhost:8080/api/auth/logout', null, {
+            headers: {
+                Authorization: `Bearer ${retrieveStoredToken().token}`
+            }
+        })
+            .then(response => {
+                console.log("성공");
+                window.location.replace("/");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
+    roleTest();
+if(token) {
     if(role === 'ADMIN') {
         return (
             <ul className="navbar-nav h-100 ml-4">
@@ -53,7 +68,7 @@ export default function HeaderLinks() {
                     </NavLink>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={logout}>
                     로그아웃
                 </li>
             </ul>
@@ -75,7 +90,7 @@ export default function HeaderLinks() {
                 <li className="nav-item">
                     수강신청
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" onClick={logout}>
                     로그아웃
                 </li>
                 <li>
@@ -88,6 +103,59 @@ export default function HeaderLinks() {
             </ul>
         )
 
+  }
+    }else{
+        if (role === 'ADMIN') {
+            return (
+                <ul className="navbar-nav h-100 ml-4">
+                    <li className="nav-item">
+                        콘텐츠관리
+                    </li>
+                    <li className="nav-item">
+                        강의관리
+                    </li>
+                    <li className="nav-item">
+                        수강현황
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/"
+                                 className={({isActive}) => (isActive ? styles.active : "")}
+                        >
+                             로그인
+                        </NavLink>
+                    </li>
+                </ul>
+            )
+        } else {
+            return (
+                <ul className="navbar-nav h-100 ml-4">
+                    <li className="nav-item">
+                        나의정보
+                    </li>
+                    <li className="nav-item">
+                        강의수강
+                    </li>
+                    <li className="nav-item">
+                        수강신청
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/"
+                                 className={({isActive}) => (isActive ? styles.active : "")}
+                        >
+                            로그인
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/user/join"
+                                 className={({isActive}) => (isActive ? styles.active : "")}
+                        >
+                            회원가입
+                        </NavLink>
+                    </li>
+                </ul>
+            )
+
+        }
     }
 
 

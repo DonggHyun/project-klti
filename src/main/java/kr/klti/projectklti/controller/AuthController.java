@@ -28,6 +28,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        authService.logout(request);
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
 
     /* 토큰을 통해 회원 권한 조회 */
     @GetMapping("/role")
