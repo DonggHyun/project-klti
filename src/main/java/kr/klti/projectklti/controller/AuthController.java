@@ -32,6 +32,7 @@ public class AuthController {
     /* 토큰을 통해 회원 권한 조회 */
     @GetMapping("/role")
     public ResponseEntity<String> getRole(HttpServletRequest request) {
+        System.out.println("AUTH CONTROLLER");
         String role = authService.getRole(request);
         return ResponseEntity.ok(role);
     }
