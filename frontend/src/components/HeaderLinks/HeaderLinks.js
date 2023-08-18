@@ -4,7 +4,7 @@ import axios from "axios";
 import {useState, useEffect} from "react";
 import styles from './HeaderLinks.module.css';
 
-export default function HeaderLinks() {
+export default function HeaderLinks({ setSelectedMenu }) {
 
     const movePage = useNavigate();
     function goJoin() {
@@ -35,6 +35,7 @@ export default function HeaderLinks() {
                 console.error('Error :', error);
             });
     }
+
 
     function logout() {
         axios.post('http://localhost:8080/api/auth/logout', null, {
@@ -106,6 +107,7 @@ export default function HeaderLinks() {
             )
 
         }
+
     } else {
         if (role === 'ADMIN') {
             return (

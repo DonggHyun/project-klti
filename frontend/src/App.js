@@ -13,7 +13,9 @@ import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Class from "./pages/Class/Class";
-import RouteAdmin from "./pages/RouteAdmin/RouteAdmin";
+import Admin from "./pages/Admin/Admin";
+import ContentManagement from "./components/ContentManagement/ContentManagement";
+import LectureManagement from "./components/LectureManagement/LectureManagement";
 import StudentLecture from "./pages/Student/StudentLecture";
 import LectureProgress from "./pages/LectureControl/LectureProgress";
 
@@ -42,35 +44,34 @@ function App() {
         });
   },[]);*/
 
-    const [data, setData] = useState('');
+    const [selectedMenu, setSelectedMenu] = useState('default');
 
-    /*useEffect(() => {
-        axios.get('/api/test')
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);*/
+    const renderClassComponent = () => {
 
+    }
 
-    /*useEffect(() => {
-        if (data) {
-            console.log('Received data:', data);
+    const renderAdminComponent = () => {
+        switch (selectedMenu) {
+            case 'ContentManagement':
+                return <ContentManagement />;
+            case 'LectureManagement':
+                return <LectureManagement />;
+            default:
+                return <ContentManagement />;
         }
-    }, [data]);*/
+    };
+
 
   return (
     <>
         <BrowserRouter>
-            <Header></Header>
+            <Header setSelectedMenu={setSelectedMenu}></Header>
             <Routes>
                 <Route path={"/"} element={<Login />}></Route>
                 <Route path={"/user/join"} element={<Join />}></Route>
+                <Route path={"/class"} element={<Class renderClassComponent={renderClassComponent} />}></Route>
+                <Route path={"/admin"} element={<Admin renderAdminComponent={renderAdminComponent} />}></Route>
                 <Route path={"/user/StudentLecture"} element={<StudentLecture />}></Route>
-                <Route path={"/class"} element={<Class />}></Route>
-                <Route path={"/admin"} element={<RouteAdmin />}></Route>
                 <Route path={"/admin/LectureProgress"} element={<LectureProgress />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>
