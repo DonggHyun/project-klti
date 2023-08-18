@@ -7,6 +7,7 @@ import style from './ContentManagement.module.css';
 import ContentInfo from "../ContentInfo/ContentInfo";
 import Grid from "tui-grid";
 import 'tui-grid/dist/tui-grid.css';
+import {useEffect} from "react";
 
 export default function ContentManagement() {
 
@@ -19,7 +20,7 @@ export default function ContentManagement() {
             <Container className="mt-2">
                 <Row>
                     <Col sm={7} className={style.column}>
-                        <ContentList />
+                        <ContentList wait={2000}/>
                     </Col>
                     <Col sm={5} className={style.column}>
                         <ContentInfo />

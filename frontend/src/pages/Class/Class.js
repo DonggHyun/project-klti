@@ -3,7 +3,7 @@ import axios from 'axios';
 import { retrieveStoredToken } from '../../auth-action';
 import './class.css';
 
-function Class() {
+function Class({ renderComponent }) {
     const [studentInfo, setStudentInfo] = useState({
         name: '',
         userId: '',

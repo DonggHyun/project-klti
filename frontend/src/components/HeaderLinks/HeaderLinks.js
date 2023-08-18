@@ -4,7 +4,7 @@ import axios from "axios";
 import {useState} from "react";
 import styles from './HeaderLinks.module.css';
 
-export default function HeaderLinks() {
+export default function HeaderLinks({ setSelectedMenu }) {
 
     const movePage = useNavigate();
     function goJoin() {
@@ -39,10 +39,10 @@ export default function HeaderLinks() {
     if(role === 'ADMIN') {
         return (
             <ul className="navbar-nav h-100 ml-4">
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => setSelectedMenu('ContentManagement')}>
                     콘텐츠관리
                 </li>
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => setSelectedMenu('LectureManagement')}>
                     강의관리
                 </li>
                 <li className="nav-item">
