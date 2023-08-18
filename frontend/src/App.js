@@ -16,6 +16,9 @@ import Class from "./pages/Class/Class";
 import Admin from "./pages/Admin/Admin";
 import ContentManagement from "./components/ContentManagement/ContentManagement";
 import LectureManagement from "./components/LectureManagement/LectureManagement";
+import StudentLecture from "./pages/Student/StudentLecture";
+import LectureProgress from "./pages/LectureControl/LectureProgress";
+
 
 
 
@@ -68,6 +71,8 @@ function App() {
                 <Route path={"/user/join"} element={<Join />}></Route>
                 <Route path={"/class"} element={<Class renderClassComponent={renderClassComponent} />}></Route>
                 <Route path={"/admin"} element={<Admin renderAdminComponent={renderAdminComponent} />}></Route>
+                <Route path={"/user/StudentLecture"} element={<StudentLecture />}></Route>
+                <Route path={"/admin/LectureProgress"} element={<LectureProgress />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>
