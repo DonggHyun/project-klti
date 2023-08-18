@@ -66,10 +66,10 @@ export default function HeaderLinks({ setSelectedMenu }) {
         if (role === 'ADMIN') {
             return (
                 <ul className="navbar-nav h-100 ml-4">
-                    <li className="nav-item" onClick={() => setSelectedMenu('ContentManagement')}>
+                    <li className="nav-item" onClick={() => setSelectedMenu('ContentManagement')} >
                         콘텐츠관리
                     </li>
-                    <li className="nav-item" onClick={() => setSelectedMenu('LectureManagement')}>
+                    <li className="nav-item" onClick={() => setSelectedMenu('LectureManagement')} >
                         강의관리
                     </li>
                     <li className="nav-item">
