@@ -7,9 +7,13 @@ import style from './ContentManagement.module.css';
 import ContentInfo from "../ContentInfo/ContentInfo";
 import Grid from "tui-grid";
 import 'tui-grid/dist/tui-grid.css';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {retrieveStoredToken} from "../../auth-action";
 
 export default function ContentManagement() {
+
+
 
 
     return (
@@ -20,7 +24,7 @@ export default function ContentManagement() {
             <Container className="mt-2">
                 <Row>
                     <Col sm={7} className={style.column}>
-                        <ContentList wait={2000}/>
+                        <ContentList />
                     </Col>
                     <Col sm={5} className={style.column}>
                         <ContentInfo />

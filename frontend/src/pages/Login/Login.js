@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 import style from './Login.module.css';
 
@@ -10,26 +10,46 @@ export default function Login() {
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
-    const [test, setTest] = useState('');
+    const [role, setRole] = useState('MEMBER');
 
-    function loginSubmit() {
-
-        axios.post('http://localhost:8080/api/auth/login', {
-            userId: userId,
-            password: password
-        })
-            .then(response => {
-                loginTokenHandler(response.data.accessToken, response.data.tokenExpiresIn);
-                setTest(retrieveStoredToken().token)
-                if(response.status === 200) {
-                    window.location.replace("/class");
-                }
-            })
-            .catch(error => {
-                console.error('Error :', error);
+    async function loginSubmit() {
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/login', {
+                userId: userId,
+                password: password
             });
 
+            loginTokenHandler(response.data.accessToken, response.data.tokenExpiresIn);
+
+            if (response.status === 200) {
+                await roleTest();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
+
+    async function roleTest() {
+        try {
+            const response = await axios.get('http://localhost:8080/api/auth/role', {
+                headers: {
+                    Authorization: 'Bearer ' + retrieveStoredToken().token
+                }
+            });
+
+            setRole(response.data);
+
+            if (response.data === 'MEMBER') {
+                window.location.replace("/class");
+            } else if (response.data === 'ADMIN') {
+                window.location.replace("/admin");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+
 
     return (
         <>
