@@ -1,14 +1,12 @@
 package kr.klti.projectklti.configuration;
 
-import kr.klti.projectklti.service.MemberService;
 import kr.klti.projectklti.util.jwt.JwtAccessDeniedHandler;
 import kr.klti.projectklti.util.jwt.JwtAuthenticationEntryPoint;
 import kr.klti.projectklti.util.jwt.TokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -17,36 +15,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
 @Component
 public class SecurityConfig {
 
-    //private final MemberService memberService;
     private final AuthenticationSuccessHandler customAuthenticationSuccessHandler ;
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final RedisTemplate redisTemplate;
     @Autowired
-    public SecurityConfig(//MemberService memberService,
+    public SecurityConfig(
                           CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
                           TokenProvider tokenProvider,
                           JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          JwtAccessDeniedHandler jwtAccessDeniedHandler
-                          ){
+                          JwtAccessDeniedHandler jwtAccessDeniedHandler,
+                          RedisTemplate redisTemplate){
         //this.memberService=memberService;
         this.customAuthenticationSuccessHandler=customAuthenticationSuccessHandler;
         this.tokenProvider = tokenProvider;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.redisTemplate = redisTemplate;
     }
 
 
@@ -121,7 +117,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider, redisTemplate));
 
         return http.build();
 

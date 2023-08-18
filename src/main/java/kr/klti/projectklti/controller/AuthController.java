@@ -6,6 +6,7 @@ import kr.klti.projectklti.service.AuthService;
 import kr.klti.projectklti.service.MemberService;
 import kr.klti.projectklti.util.jwt.TokenDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final AuthService authService;
     private final MemberService memberService;
 
@@ -26,6 +28,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        authService.logout(request);
+        return ResponseEntity.ok("Logged out successfully");
     }
 
 
@@ -41,7 +49,5 @@ public class AuthController {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
         return ResponseEntity.ok((myInfoBySecurity));
     }
-
-
 
 }
