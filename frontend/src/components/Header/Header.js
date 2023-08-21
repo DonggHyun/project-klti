@@ -1,13 +1,10 @@
 import './Header.module.css';
 import {useNavigate} from "react-router-dom";
-import {retrieveStoredToken} from "../../auth-action";
-import {useState} from "react";
-import axios from "axios";
 import HeaderLinks from "../HeaderLinks/HeaderLinks";
 
 
 
-export default function Header() {
+export default function Header({ setSelectedMenu }) {
 
     const movePage = useNavigate();
 
@@ -39,7 +36,7 @@ export default function Header() {
                         </button>
 
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <HeaderLinks />
+                            <HeaderLinks setSelectedMenu={setSelectedMenu} />
                         </div>
                     </div>
                 </nav>

@@ -2,10 +2,43 @@ import {Container, Row} from "react-bootstrap";
 import style from './ContentList.module.css';
 import 'tui-grid/dist/tui-grid.css';
 import Grid from '@toast-ui/react-grid';
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
+import axios from "axios";
+import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
+import ContentGrid from "./ContentGrid";
 
 export default function ContentList() {
 
+    const gridRef = useRef();
+
+    const [data, setData] = useState([]);
+    const [go, setGo] = useState(false);
+
+    /* 콘텐츠 목록 data 가져오기 */
+    useEffect(() => {
+
+        axios.get('http://localhost:8080/api/contents', {
+            headers: {
+                'Authorization': 'Bearer ' + retrieveStoredToken().token
+            }
+        })
+            .then(response => {
+                console.log(response);
+                if (response.status === 200) {
+                    setData(response.data);
+                }
+
+            })
+            .catch(error => {
+                console.error('Error :', error);
+            });
+
+        setGo(true);
+    }, []);
+
+
+
+    /* 콘텐츠 목록 Grid 컬럼 */
     const columns = [
         {
             name: 'chk',
@@ -30,12 +63,36 @@ export default function ContentList() {
     ];
 
 
+
+
+    /* Grid 테이블 config */
+    const gridConfig = {
+        columns,
+        rowHeight: 25,
+        bodyHeight: 100
+    }
+
+
+
+/*    useEffect(() => {
+        if (!gridRef.current) return;
+
+        const grid = new Grid({
+            el: gridRef.current,
+            columns,
+            rowHeight: 25,
+            bodyHeight: 100
+        });
+
+    }, []);*/
+
+
+
+
     return (
-        <Grid
-            columns={columns}
-            rowHeight={25}
-            bodyHeight={100}
-        />
+        <div className={style.container} id="grid_tui">
+            {go ? <ContentGrid data={data} {...gridConfig} /> : <p>Loading...</p>}
+        </div>
     )
 }
 
