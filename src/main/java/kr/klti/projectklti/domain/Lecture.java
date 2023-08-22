@@ -1,15 +1,14 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity(name="lecture")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lecture {
 
     /*강좌번호*/
@@ -37,18 +36,5 @@ public class Lecture {
     @Column(length = 10)
     private String lectStatus;
 
-    @Builder
-    public Lecture(Long lectNo,
-                   String lectName,
-                   String lectDesc,
-                   String lectStartDate,
-                   String lectEndDate,
-                   String lectStatus){
-        this.lectNo = lectNo;
-        this.lectName = lectName;
-        this.lectDesc = lectDesc;
-        this.lectStartDate = lectStartDate;
-        this.lectEndDate = lectEndDate;
-        this.lectStatus = lectStatus;
-    }
+
 }

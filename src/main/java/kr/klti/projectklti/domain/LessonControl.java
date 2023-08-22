@@ -1,15 +1,14 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class LessonControl {
 
     /*통제고유번호*/
@@ -36,22 +35,9 @@ public class LessonControl {
     /*차시고유번호*/
     @ManyToOne
     @JoinColumn(name = "lessNo")
-    private Lesson lessNo;
+    private Lesson lesson;
 
-    @Builder
-    public LessonControl(Long ctrlNo,
-                         String ctrlTm,
-                         String popupMsg,
-                         String keepAns,
-                         String popupId,
-                         Lesson lessNo){
-        this.ctrlNo = ctrlNo;
-        this.ctrlTm = ctrlTm;
-        this.popupMsg = popupMsg;
-        this.keepAns = keepAns;
-        this.popupId = popupId;
-        this.lessNo = lessNo;
-    }
+
 
 
 

@@ -1,15 +1,14 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Student {
     
     /*수강생번호*/
@@ -20,19 +19,12 @@ public class Student {
     /*강좌번호*/
     @ManyToOne
     @JoinColumn(name = "lectNo")
-    private Lecture lectNo;
+    private Lecture lecture;
     
     /*회원번호*/
     @ManyToOne
     @JoinColumn(name = "memId")
-    private Member memId;
+    private Member member;
     
-    @Builder
-    public Student(Long stuNo,
-                   Lecture lectNo,
-                   Member memId){
-        this.stuNo = stuNo;
-        this.lectNo = lectNo;
-        this.memId = memId;
-    }
+
 }

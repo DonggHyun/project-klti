@@ -3,6 +3,7 @@ package kr.klti.projectklti.dto;
 import kr.klti.projectklti.domain.Content;
 import kr.klti.projectklti.domain.Lecture;
 import kr.klti.projectklti.domain.Lesson;
+import kr.klti.projectklti.domain.LessonControl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,18 @@ public class LessonDto {
                 .lessDesc(lessDesc)
                 .lecture(lecture)
                 .content(content)
+                .build();
+    }
+
+    public static LessonDto of(Lesson lesson){
+        return LessonDto.builder()
+                .lessNo(lesson.getLessNo())
+                .lessOrder(lesson.getLessOrder())
+                .lessName(lesson.getLessName())
+                .supFileNo(lesson.getSupFileNo())
+                .lessDesc(lesson.getLessDesc())
+                .lecture(lesson.getLecture())
+                .content(lesson.getContent())
                 .build();
     }
 

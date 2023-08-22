@@ -1,16 +1,15 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name="content")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content {
 
     /*콘텐츠 번호*/
@@ -42,22 +41,8 @@ public class Content {
     @Column
     private Long contRuntime;
 
-
     @OneToOne(mappedBy = "content")
     private Lesson lesson;
 
-
-    @Builder
-    public Content(Long contNo, String contName, String contDesc, int contThumbnail,
-                   int contFile, String contVideoId, Long contRuntime,Lesson lesson){
-        this.contNo = contNo;
-        this.contName = contName;
-        this.contDesc = contDesc;
-        this.contThumbnail = contThumbnail;
-        this.contFile = contFile;
-        this.contVideoId = contVideoId;
-        this.contRuntime = contRuntime;
-        this.lesson=lesson;
-    }
 
 }

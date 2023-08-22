@@ -1,5 +1,6 @@
 package kr.klti.projectklti.dto;
 
+import kr.klti.projectklti.domain.Content;
 import kr.klti.projectklti.domain.Lesson;
 import kr.klti.projectklti.domain.MemberProgress;
 import kr.klti.projectklti.domain.Student;
@@ -17,8 +18,8 @@ public class MemberProgressDto {
     private Long contFinalPoint;
     private Long contEndPoint;
     private Long contProgress;
-    private Lesson lessNo;
-    private Student stuNo;
+    private Lesson lesson;
+    private Student student;
 
 
     public MemberProgress toMemberProgress(){
@@ -28,8 +29,20 @@ public class MemberProgressDto {
                 .contFinalPoint(contFinalPoint)
                 .contEndPoint(contEndPoint)
                 .contProgress(contProgress)
-                .lessNo(lessNo)
-                .stuNo(stuNo)
+                .lesson(lesson)
+                .student(student)
+                .build();
+    }
+
+    public static MemberProgressDto of(MemberProgress memberProgress) {
+        return MemberProgressDto.builder()
+                .progNo(memberProgress.getProgNo())
+                .lecDiv(memberProgress.getLecDiv())
+                .contFinalPoint(memberProgress.getContFinalPoint())
+                .contEndPoint(memberProgress.getContEndPoint())
+                .contProgress(memberProgress.getContProgress())
+                .lesson(memberProgress.getLesson())
+                .student(memberProgress.getStudent())
                 .build();
     }
 

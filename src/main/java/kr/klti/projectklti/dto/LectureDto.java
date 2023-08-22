@@ -1,12 +1,15 @@
 package kr.klti.projectklti.dto;
 
 import kr.klti.projectklti.domain.Lecture;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@AllArgsConstructor
+
 public class LectureDto {
 
     private Long lectNo;
@@ -16,14 +19,15 @@ public class LectureDto {
     private String lectEndDate;
     private String lectStatus;
 
-    public LectureDto(Long lectNo,String lectName,String lectDesc,
-                      String lectStartDate,String lectEndDate,String lectStatus){
-        this.lectNo = lectNo;
-        this.lectName=lectName;
-        this.lectDesc=lectDesc;
-        this.lectStartDate=lectStartDate;
-        this.lectEndDate=lectEndDate;
-        this.lectStatus=lectStatus;
+    public Lecture toLecture(){
+        return Lecture.builder()
+                .lectNo(lectNo)
+                .lectName(lectName)
+                .lectDesc(lectDesc)
+                .lectStartDate(lectStartDate)
+                .lectEndDate(lectEndDate)
+                .lectStatus(lectStatus)
+                .build();
     }
 
     public static LectureDto of(Lecture lecture){
