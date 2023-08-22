@@ -1,0 +1,6 @@
+.column {
+    padding: 0;
+}
+.column:first-child {
+    padding-right: 10px;
+}
