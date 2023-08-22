@@ -5,6 +5,8 @@ import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import kr.klti.projectklti.service.GoogleOAuthService;
+import kr.klti.projectklti.service.MemberService;
+import kr.klti.projectklti.util.jwt.SecurityUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,8 @@ public class GoogleOAuthController {
     private GoogleOAuthService googleOAuthService;
 
 
-    GoogleTokenResponse googleAccessToken;
+
+    private GoogleTokenResponse googleAccessToken;
 
 
     /* 토큰 발급 */
@@ -82,31 +85,16 @@ public class GoogleOAuthController {
 
 
 
-
-    /*
-    @RequestMapping(value = "googleAccessToken.do", produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public Map<String, Object> getGoogleAccessToken(HttpServletResponse response , @RequestParam("scope") Collection<String> scopes) throws IOException{
-        Map<String, Object> ret = new LinkedHashMap<>();
-        if(scopes.isEmpty()){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return null;
+    /* 토큰 조회 */
+    @GetMapping(value = "/api/admin/googleaccesstoken")
+    public ResponseEntity<String> getGoogleAccessToken() {
+        String subject = SecurityUtil.getCurrentMemberId();
+        String token = googleOAuthService.getGoogleAccessToken(subject);
+        if(token == null || token.isEmpty()) {
+            // 토큰이 만료된 경우 권한 없음 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        Credential credential = googleOAuthService.getUserCredential(scopes);
-        if(credential == null){
-            ret.put("O_RESULT", "-1");
-            ret.put("O_RESULT_STR", "Google OAuth 인증이 필요합니다.");
-            ret.put("O_RESULT_STR_VALUE", "");
-        }else{
-            ret.put("O_RESULT", "0");
-            ret.put("O_RESULT_STR", "정상적으로 처리됐습니다.");
-            ret.put("O_RESULT_STR_VALUE", credential.getAccessToken());
-            ret.put("expireInSeconds", credential.getExpiresInSeconds());
-        }
-        return ret;
+        return ResponseEntity.ok("Got Token!");
     }
-*/
-
 
 }
