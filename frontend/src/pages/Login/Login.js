@@ -3,6 +3,7 @@ import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 import style from './Login.module.css';
+import GoogleOAuthLogin from "../../components/GoogleOAuthLogin/GoogleOAuthLogin";
 
 
 export default function Login() {

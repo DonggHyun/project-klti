@@ -1,6 +1,6 @@
 
 /* 토큰을 입력받아 헤더 형식으로 반환해주는 함수 */
-const createTokenHeader = (token) => {
+export const createTokenHeader = (token) => {
     return {
         headers: {
             'Authorization': 'Bearer ' + token
