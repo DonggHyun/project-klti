@@ -18,6 +18,14 @@ export default function LectureManagement() {
                         <LectureList/>
                     </Col>
                 </Row>
+                <Row>
+                    <Col sm={6} className={style.column}>
+                        <LectureList/>
+                    </Col>
+                    <Col sm={6} className={style.column}>
+                        <LectureList/>
+                    </Col>
+                </Row>
             </Container>
         </>
     )

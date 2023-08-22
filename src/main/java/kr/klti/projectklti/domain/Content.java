@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name="content")
@@ -27,10 +24,13 @@ public class Content {
     private String contVideoId;
     private Long contRuntime;
 
+    @OneToOne(mappedBy = "content")
+    private Lesson lesson;
+
 
     @Builder
     public Content(Long contNo, String contName, String contDesc, int contThumbnail,
-                   int contFile, String contVideoId, Long contRuntime){
+                   int contFile, String contVideoId, Long contRuntime,Lesson lesson){
         this.contNo = contNo;
         this.contName = contName;
         this.contDesc = contDesc;
@@ -38,6 +38,7 @@ public class Content {
         this.contFile = contFile;
         this.contVideoId = contVideoId;
         this.contRuntime = contRuntime;
+        this.lesson=lesson;
     }
 
 }
