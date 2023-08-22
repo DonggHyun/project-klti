@@ -16,7 +16,7 @@ public class LessonControlDto {
     private String popupMsg;
     private String keepAns;
     private String popupId;
-    private Lesson lessNo;
+    private Lesson lesson;
 
     public LessonControl toLessonControl(){
         return LessonControl.builder()
@@ -25,7 +25,18 @@ public class LessonControlDto {
                 .popupMsg(popupMsg)
                 .keepAns(keepAns)
                 .popupId(popupId)
-                .lessNo(lessNo)
+                .lesson(lesson)
+                .build();
+    }
+
+    public static LessonControlDto of(LessonControl lessonControl){
+        return LessonControlDto.builder()
+                .ctrlNo(lessonControl.getCtrlNo())
+                .ctrlTm(lessonControl.getCtrlTm())
+                .popupMsg(lessonControl.getPopupMsg())
+                .keepAns(lessonControl.getKeepAns())
+                .popupId(lessonControl.getPopupId())
+                .lesson(lessonControl.getLesson())
                 .build();
     }
 }

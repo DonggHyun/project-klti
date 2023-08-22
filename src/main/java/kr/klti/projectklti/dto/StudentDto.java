@@ -1,5 +1,6 @@
 package kr.klti.projectklti.dto;
 
+import kr.klti.projectklti.domain.Content;
 import kr.klti.projectklti.domain.Lecture;
 import kr.klti.projectklti.domain.Member;
 import kr.klti.projectklti.domain.Student;
@@ -12,15 +13,23 @@ import lombok.Getter;
 @Builder
 public class StudentDto {
     private Long stuNo;
-    private Lecture lectNo;
-    private Member memId;
+    private Lecture lecture;
+    private Member member;
 
 
     public Student toStudent(){
         return Student.builder()
                 .stuNo(stuNo)
-                .lectNo(lectNo)
-                .memId(memId)
+                .lecture(lecture)
+                .member(member)
+                .build();
+    }
+
+    public static StudentDto of(Student student) {
+        return StudentDto.builder()
+                .stuNo(student.getStuNo())
+                .lecture(student.getLecture())
+                .member(student.getMember())
                 .build();
     }
 

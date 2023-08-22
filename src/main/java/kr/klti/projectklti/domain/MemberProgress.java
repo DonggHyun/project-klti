@@ -1,15 +1,14 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberProgress {
 
     /*학습자차시번호*/
@@ -36,28 +35,13 @@ public class MemberProgress {
     /*차시고유번호*/
     @ManyToOne
     @JoinColumn(name = "lessNo")
-    private Lesson lessNo;
+    private Lesson lesson;
 
     /*수강생번호*/
     @ManyToOne
     @JoinColumn(name = "stuNo")
-    private Student stuNo;
+    private Student student;
 
-    @Builder
-    public MemberProgress(Long progNo,
-                          String lecDiv,
-                          Long contFinalPoint,
-                          Long contEndPoint,
-                          Long contProgress,
-                          Lesson lessNo,
-                          Student stuNo){
-        this.progNo = progNo;
-        this.lecDiv = lecDiv;
-        this.contFinalPoint = contFinalPoint;
-        this.contEndPoint = contEndPoint;
-        this.contProgress = contProgress;
-        this.lessNo = lessNo;
-        this.stuNo = stuNo;
-    }
+
 
 }

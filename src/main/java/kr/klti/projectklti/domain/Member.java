@@ -1,9 +1,6 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +13,9 @@ import java.util.Set;
 
 @Entity(name="user")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member{
 
     //회원 번호
@@ -74,25 +73,7 @@ public class Member{
     private Role role;
 
 
-    @Builder
-    public Member(Long memId, String name, String birth,
-                  String gender, String userEmail, String userId, String password,
-                  String changePassword, String pwYN, int pwErrCnt, LocalDateTime lastLoginDate, String createReq,
-                  Role role){
-        this.memId=memId;
-        this.name=name;
-        this.birth=birth;
-        this.gender=gender;
-        this.userEmail=userEmail;
-        this.userId=userId;
-        this.password= password; // password 저장 시 자동 암호화
-        this.changePassword=changePassword;
-        this.pwYN=pwYN;
-        this.pwErrCnt=pwErrCnt;
-        this.lastLoginDate=lastLoginDate;
-        this.createReq=createReq;
-        this.role=role;
-    }
+
 
 
 }

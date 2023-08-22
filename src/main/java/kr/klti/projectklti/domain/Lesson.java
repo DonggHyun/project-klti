@@ -1,15 +1,14 @@
 package kr.klti.projectklti.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lesson {
 
     /*차시고유번호*/
@@ -44,20 +43,5 @@ public class Lesson {
     private Content content;
 
 
-    @Builder
-    public Lesson(Long lessNo,
-                  Long lessOrder,
-                  String lessName,
-                  Long supFileNo,
-                  String lessDesc,
-                  Lecture lecture,
-                  Content content){
-        this.lessNo = lessNo;
-        this.lessOrder = lessOrder;
-        this.lessName = lessName;
-        this.supFileNo = supFileNo;
-        this.lessDesc = lessDesc;
-        this.lecture = lecture;
-        this.content = content;
-    }
+
 }
