@@ -35,4 +35,16 @@ public class ContentDto {
                 .build();
     }
 
+    public static ContentDto of(Content content) {
+        return ContentDto.builder()
+                .contNo(content.getContNo())
+                .contName(content.getContName())
+                .contDesc(content.getContDesc())
+                .contThumbnail(content.getContThumbnail())
+                .contFile(content.getContFile())
+                .contVideoId(content.getContVideoId())
+                .contRuntime(content.getContRuntime())
+                .build();
+    }
+
 }

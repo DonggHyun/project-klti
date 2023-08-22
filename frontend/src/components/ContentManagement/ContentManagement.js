@@ -10,6 +10,7 @@ import 'tui-grid/dist/tui-grid.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {retrieveStoredToken} from "../../auth-action";
+import GoogleOAuthLogin from "../GoogleOAuthLogin/GoogleOAuthLogin";
 
 export default function ContentManagement() {
 
@@ -31,6 +32,7 @@ export default function ContentManagement() {
                     </Col>
                 </Row>
             </Container>
+
         </>
     )
 }
