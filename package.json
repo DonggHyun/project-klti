@@ -2,7 +2,6 @@
   "dependencies": {
     "axios": "^1.4.0",
     "googleapis": "^126.0.0",
-    "react-google-login": "^5.2.2",
-    "mdb-react-ui-kit": "^6.2.0"
+    "react-google-login": "^5.2.2"
   }
 }

@@ -17,8 +17,8 @@ public class LessonDto {
     private String lessName;
     private Long supFileNo;
     private String lessDesc;
-    private Lecture lectNo;
-    private Content contNo;
+    private Lecture lecture;
+    private Content content;
 
     public Lesson toLesson(){
         return Lesson.builder()
@@ -27,8 +27,8 @@ public class LessonDto {
                 .lessName(lessName)
                 .supFileNo(supFileNo)
                 .lessDesc(lessDesc)
-                .lectNo(lectNo)
-                .contNo(contNo)
+                .lecture(lecture)
+                .content(content)
                 .build();
     }
 
