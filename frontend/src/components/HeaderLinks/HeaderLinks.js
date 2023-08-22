@@ -137,7 +137,11 @@ export default function HeaderLinks({ setSelectedMenu }) {
                         나의정보
                     </li>
                     <li className="nav-item">
-                        강의수강
+                        <NavLink to="/user/StudentLecture"
+                                 className={({isActive}) => (isActive ? styles.active : "")}
+                        >
+                            강의수강
+                        </NavLink>
                     </li>
                     <li className="nav-item">
                         수강신청

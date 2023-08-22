@@ -49,7 +49,7 @@ public class Member{
     private String password;
 
     //비밀번호 변경 일자
-    @Column
+    @Column(length = 8)
     private String changePassword;
 
     //비밀번호 변경 여부

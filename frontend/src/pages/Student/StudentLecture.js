@@ -9,12 +9,14 @@ import Card from 'react-bootstrap/Card';
 
 import './StudentLecture.css';
 
-import React, {useState} from 'react';
-import YoutubeEmbed from "./YoutubeEmbed";
+import React, { useState, useEffect } from 'react';
+import YouTube from "react-youtube";
+// import YoutubeEmbed from "./YoutubeEmbed";
 
 export default function StudentLecture() {
     // 팝업 상태 관리용 변수
     const [showPopup, setShowPopup] = useState(false);
+    const [finalPosition, setFinalPosition] = useState(null);
 
     const openPopup = () => {
         setShowPopup(true);
@@ -24,8 +26,14 @@ export default function StudentLecture() {
         setShowPopup(false);
     };
 
+    const savePlaybackProgress = (currentTime) => {
+        localStorage.setItem('videoPlaybackPosition', currentTime);
+    };
     //진체진도율 표시 위한 변수 선언
     const now = 60;
+
+    //유튜브 재생목록 가져오기
+
 
     return (
         <Container>
@@ -292,11 +300,58 @@ export default function StudentLecture() {
             {showPopup && (
                 <div className="popup-overlay">
                     <div className="popup-container">
-                        <YoutubeEmbed embedId="Zoo9klcgjRs"/>
+                        <YoutubeEmbed embedId="Zoo9klcgjRs" saveProgress={savePlaybackProgress} initialPosition={finalPosition}/>
                         <button className="popup-close" onClick={closePopup}>X</button>
                     </div>
                 </div>
             )}
         </Container>
+    );
+}
+
+function YoutubeEmbed({ embedId, saveProgress, initialPosition }) {
+    const [player, setPlayer] = useState(null);
+
+    const opts = {
+        width: '680',
+        height: '450',
+        playerVars: {
+            rel: 0
+        }
+    };
+
+    const onReady = (event) => {
+        setPlayer(event.target);
+        event.target.playVideo();
+
+        const storedPosition = localStorage.getItem('videoPlaybackPosition');
+        if (storedPosition !== null) {
+            const parsedPosition = parseFloat(storedPosition);
+            event.target.seekTo(parsedPosition);
+        }
+    };
+
+    const onStateChange = (event) => {
+        if (event.data === YouTube.PlayerState.PLAYING) {
+            const recordInterval = setInterval(() => {
+                const currentTime = player.getCurrentTime();
+                console.log('Current Time:', currentTime);
+                saveProgress(currentTime); // Save the current playback time
+            }, 5000);
+        }
+    };
+
+    const onPlaybackRateChange = (event) => {
+
+    };
+
+    return (
+        <YouTube
+            videoId={embedId} // 동영상 주소
+            opts={opts}
+            onReady={onReady}
+            onStateChange={onStateChange}
+            onPlaybackRateChange={onPlaybackRateChange}
+        />
     );
 }
