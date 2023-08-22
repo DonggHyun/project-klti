@@ -16,10 +16,9 @@ export default function ContentManagement() {
 
 
 
-
     return (
         <>
-            <InsertDeleteButton />
+            <InsertDeleteButton page={'Content'} />
             <ContentSearch />
             <ContentListTop />
             <Container className="mt-2">
