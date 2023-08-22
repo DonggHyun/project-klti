@@ -3,6 +3,7 @@ import axios from "axios";
 import {useEffect, useRef, useState} from "react";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 import style from './Login.module.css';
+import GoogleOAuthLogin from "../../components/GoogleOAuthLogin/GoogleOAuthLogin";
 
 
 export default function Login() {
@@ -53,8 +54,8 @@ export default function Login() {
 
     return (
         <>
-            <div className="container tm-mt-big tm-mb-big">
-                <div className="row">
+            <div className="container">
+                <div className="row col-5 offset-3">
                     <div className={style.loginBox}>
                         <div className={style.block}>
                             <div className="row">

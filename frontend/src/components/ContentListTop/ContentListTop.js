@@ -1,4 +1,5 @@
 import {Button, Col, Container, Row} from "react-bootstrap";
+import GoogleOAuthLogin from "../GoogleOAuthLogin/GoogleOAuthLogin";
 
 
 export default function ContentListTop() {
@@ -13,11 +14,7 @@ export default function ContentListTop() {
                     </div>
                 </Col>
                 <Col sm={2} className="d-flex justify-content-end mr-3">
-                    <div>
-                        <Button>
-                            업로드 인증
-                        </Button>
-                    </div>
+                    <GoogleOAuthLogin />
                 </Col>
             </Row>
         </Container>

@@ -1,36 +1,63 @@
 package kr.klti.projectklti.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name="lesson")
+@Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Lesson {
 
+    /*차시고유번호*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long lessNo;
 
+    /*차시번호*/
     @Column
-    private int lessOrder;
+    private Long lessOrder;
 
-    @Column
+    /*차시명*/
+    @Column(length = 150)
     private String lessName;
 
+    /*보조자료파일*/
     @Column
-    private int subFileNo;
+    private Long supFileNo;
 
+    /*차시설명*/
     @Column(length = 1000)
     private String lessDesc;
 
-    // 1개의 강의에 여러개의 차시 , 단방향 조인
+    /*강좌번호*/
     @ManyToOne
-    @JoinColumn(name="lectNo")
+    @JoinColumn(name = "lectNo")
     private Lecture lecture;
 
+    /*콘텐츠번호*/
     @OneToOne
-    @JoinColumn(name="contNo")
+    @JoinColumn(name = "contNo")
     private Content content;
+
+
+    @Builder
+    public Lesson(Long lessNo,
+                  Long lessOrder,
+                  String lessName,
+                  Long supFileNo,
+                  String lessDesc,
+                  Lecture lecture,
+                  Content content){
+        this.lessNo = lessNo;
+        this.lessOrder = lessOrder;
+        this.lessName = lessName;
+        this.supFileNo = supFileNo;
+        this.lessDesc = lessDesc;
+        this.lecture = lecture;
+        this.content = content;
+    }
 }

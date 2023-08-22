@@ -19,30 +19,16 @@ import LectureManagement from "./components/LectureManagement/LectureManagement"
 import StudentLecture from "./pages/Student/StudentLecture";
 import LectureProgress from "./pages/LectureControl/LectureProgress";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import GoogleOAuthRedirect from "./pages/GoogleOAuthRedirect/GoogleOAuthRedirect";
+
 
 
 
 
 function App() {
 
-  const [message, setMessage]=useState([]);
-  /*useEffect(()=>{
-    fetch("/loginview", { headers:
-      {'Accept':'application/json',
-       'Content-Type':'application/json'}
-      }).then((res)=>{
-          console.log(res);
-          return res.json();
-          //return res.text();
-        })
-        .then((data)=>{
-            console.log('data', data);
-          setMessage(data);
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-  },[]);*/
+    const [message, setMessage]=useState([]);
 
     const [selectedMenu, setSelectedMenu] = useState('default');
 
@@ -56,6 +42,8 @@ function App() {
                 return <ContentManagement />;
             case 'LectureManagement':
                 return <LectureManagement />;
+            case 'LectureProgress':
+                return <LectureProgress />;
             default:
                 return <ContentManagement />;
         }
@@ -73,6 +61,7 @@ function App() {
                 <Route path={"/admin"} element={<Admin renderAdminComponent={renderAdminComponent} />}></Route>
                 <Route path={"/user/StudentLecture"} element={<StudentLecture />}></Route>
                 <Route path={"/admin/LectureProgress"} element={<LectureProgress />}></Route>
+                <Route path={"/auth/googleoauth"} element={<GoogleOAuthRedirect />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>
         </BrowserRouter>

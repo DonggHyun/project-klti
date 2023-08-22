@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.security.auth.Subject;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,6 +80,7 @@ public class TokenProvider {
                 .build();
     }
 
+    /* 토큰에서 사용자 권한 조회 */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
@@ -95,6 +97,19 @@ public class TokenProvider {
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
+
+    /* 토큰에서 사용자 식별자 조회 */
+    public String getSubject(String accessToken) {
+        Claims claims = parseClaims(accessToken);
+
+        if (claims.get(AUTHORITIES_KEY) == null) {
+            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+        }
+
+        String subject = claims.getSubject();
+        return subject;
+    }
+
 
     public boolean validateToken(String token) {
         try {
