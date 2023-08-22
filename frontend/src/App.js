@@ -18,6 +18,8 @@ import ContentManagement from "./components/ContentManagement/ContentManagement"
 import LectureManagement from "./components/LectureManagement/LectureManagement";
 import StudentLecture from "./pages/Student/StudentLecture";
 import LectureProgress from "./pages/LectureControl/LectureProgress";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import GoogleOAuthRedirect from "./pages/GoogleOAuthRedirect/GoogleOAuthRedirect";
 
 
@@ -40,6 +42,8 @@ function App() {
                 return <ContentManagement />;
             case 'LectureManagement':
                 return <LectureManagement />;
+            case 'LectureProgress':
+                return <LectureProgress />;
             default:
                 return <ContentManagement />;
         }

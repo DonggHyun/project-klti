@@ -54,8 +54,8 @@ export default function Login() {
 
     return (
         <>
-            <div className="container tm-mt-big tm-mb-big">
-                <div className="row">
+            <div className="container">
+                <div className="row col-5 offset-3">
                     <div className={style.loginBox}>
                         <div className={style.block}>
                             <div className="row">
