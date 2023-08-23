@@ -34,7 +34,7 @@ public class Content {
     private int contFile;
 
     /*비디오ID*/
-    @Column(length = 400)
+    @Column(length = 400, nullable = false)
     private String contVideoId;
 
     /*콘텐츠길이*/

@@ -17,7 +17,7 @@ public class Lecture {
     private Long lectNo;
 
     /*온라인강좌명*/
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String lectName;
 
     /*온라인강좌설명*/
@@ -33,7 +33,7 @@ public class Lecture {
     private String lectEndDate;
 
     /*강좌진행상태*/
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     private String lectStatus;
 
 

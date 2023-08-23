@@ -17,11 +17,11 @@ public class Lesson {
     private Long lessNo;
 
     /*차시번호*/
-    @Column
+    @Column(nullable = false)
     private Long lessOrder;
 
     /*차시명*/
-    @Column(length = 150)
+    @Column(length = 150, nullable = false)
     private String lessName;
 
     /*보조자료파일*/
