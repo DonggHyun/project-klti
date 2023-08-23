@@ -19,7 +19,7 @@ public class LectureController {
 
     @GetMapping
     public ResponseEntity<List<LectureDto>> getAllLectures() {
-        List<LectureDto> lectureDtos = lectureService.allList();
-        return ResponseEntity.ok(lectureDtos);
+        List<LectureDto> lectureResult = lectureService.allList();
+        return ResponseEntity.ok(lectureResult);
     }
 }

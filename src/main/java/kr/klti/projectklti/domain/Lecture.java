@@ -36,5 +36,4 @@ public class Lecture {
     @Column(length = 10, nullable = false)
     private String lectStatus;
 
-
 }
