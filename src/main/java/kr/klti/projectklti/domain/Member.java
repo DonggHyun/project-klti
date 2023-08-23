@@ -24,27 +24,27 @@ public class Member{
     private Long memId;
 
     //성명
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String name;
 
     //생년월일
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private String birth;
 
     //성별
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     private String gender;
 
     //이메일
-    @Column(name = "userEmail",length = 100)
+    @Column(name = "userEmail",length = 100, nullable = false)
     private String userEmail;
 
     //ID
-    @Column(unique = true,length = 40)
+    @Column(unique = true,length = 40, nullable = false)
     private String userId;
 
     //PW
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = false)
     private String password;
 
     //비밀번호 변경 일자
@@ -64,7 +64,7 @@ public class Member{
     private LocalDateTime lastLoginDate;
 
     //회원가입 날짜
-    @Column
+    @Column(nullable = false)
     private String createReq;
 
 
