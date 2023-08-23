@@ -72,12 +72,8 @@ export default function HeaderLinks({ setSelectedMenu }) {
                     <li className="nav-item" onClick={() => setSelectedMenu('LectureManagement')} >
                         강의관리
                     </li>
-                    <li className="nav-item">
-                        <NavLink to="/admin/LectureProgress"
-                                 className={({isActive}) => (isActive ? styles.active : "")}
-                        >
-                            수강현황
-                        </NavLink>
+                    <li className="nav-item" onClick={() => setSelectedMenu('LectureProgress')} >
+                        수강현황
                     </li>
                     <li className="nav-item" onClick={logout}>
                         로그아웃
