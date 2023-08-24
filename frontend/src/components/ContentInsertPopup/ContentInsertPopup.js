@@ -46,10 +46,9 @@ export default function ContentInsertPopup() {
     return (
 
         <>
-            <Form.Control></Form.Control>
-            <input type="file" onChange={handleFileChange} />
-            <input type="text" onChange={handleTitleChange} />
-            <textarea onChange={handleDescriptionChange} />
+            <Form.Control type="file" onChange={handleFileChange} ></Form.Control>
+            <Form.Control type="text" onChange={handleTitleChange} ></Form.Control>
+            <Form.Control as="textarea" rows={5} onChange={handleDescriptionChange} ></Form.Control>
 
             <button onClick={submit}>Upload</button>
         </>
