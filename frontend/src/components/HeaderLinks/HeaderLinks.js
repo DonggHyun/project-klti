@@ -83,15 +83,11 @@ export default function HeaderLinks({ setSelectedMenu }) {
         } else {
             return (
                 <ul className="navbar-nav h-100 ml-4">
-                    <li className="nav-item">
+                    <li className="nav-item" onClick={() => setSelectedMenu('StudentInfo')}>
                         나의정보
                     </li>
-                    <li className="nav-item">
-                        <NavLink to="/user/StudentLecture"
-                                 className={({isActive}) => (isActive ? styles.active : "")}
-                        >
-                            강의수강
-                        </NavLink>
+                    <li className="nav-item" onClick={() => setSelectedMenu('StudentLecture')} >
+                        강의수강
                     </li>
                     <li className="nav-item">
                         수강신청
