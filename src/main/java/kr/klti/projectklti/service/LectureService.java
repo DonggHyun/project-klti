@@ -35,4 +35,9 @@ public class LectureService {
                 .lectStatus(lecture.getLectStatus())
                 .build();
     }
+
+    //수강생정보로 수강중인 강좌 조회
+    public List<Lecture> findByLectNo(Lecture lectNo){
+        return lectureRepository.findByLectNo(lectNo);
+    }
 }

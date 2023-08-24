@@ -1,5 +1,6 @@
 import Grid from "@toast-ui/react-grid";
 import React from 'react'
+import grid from "bootstrap/js/src/dom/event-handler";
 
 
 const ContentGrid = React.forwardRef((props, ref) => {
@@ -23,6 +24,19 @@ const ContentGrid = React.forwardRef((props, ref) => {
         };
     }*/
 
+    // const handleGridRowClick = (event, row) => {
+    //     // 전달된 onGridRowClick 핸들러 호출하여 클릭된 행의 데이터 전달
+    //     if (props.onLectureClick) {
+    //         props.onLectureClick(row);
+    //     }
+    // }
+
+    const key = (event) => {
+        const rowData = props.data[event.rowKey]; // 클릭한 행의 데이터 얻기
+        console.log(rowData);
+    }
+
+
     //TuiGrid.applyTheme(null, tableOptions);
     return (
         <>
@@ -30,6 +44,7 @@ const ContentGrid = React.forwardRef((props, ref) => {
                 ref={ref}
                 rowHeight={25}
                 bodyHeight={100}
+                onGridRowClick={key}
                 {...props}
             />
         </>

@@ -18,6 +18,7 @@ import ContentManagement from "./components/ContentManagement/ContentManagement"
 import LectureManagement from "./components/LectureManagement/LectureManagement";
 import StudentLecture from "./pages/Student/StudentLecture";
 import LectureProgress from "./pages/LectureControl/LectureProgress";
+import StudentInfo from "./pages/StudentInfo/StudentInfo"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GoogleOAuthRedirect from "./pages/GoogleOAuthRedirect/GoogleOAuthRedirect";
@@ -34,7 +35,14 @@ function App() {
 
 
     const renderClassComponent = () => {
-
+        switch (selectedMenu){
+            case 'StudentInfo':
+                return <StudentInfo />;
+            case 'StudentLecture':
+                return <StudentLecture />;
+            default:
+                return <StudentInfo />;
+        }
     }
 
     const renderAdminComponent = () => {
@@ -60,8 +68,6 @@ function App() {
                 <Route path={"/user/join"} element={<Join />}></Route>
                 <Route path={"/class"} element={<Class renderClassComponent={renderClassComponent} />}></Route>
                 <Route path={"/admin"} element={<Admin renderAdminComponent={renderAdminComponent} />}></Route>
-                <Route path={"/user/StudentLecture"} element={<StudentLecture />}></Route>
-                <Route path={"/admin/LectureProgress"} element={<LectureProgress />}></Route>
                 <Route path={"/auth/googleoauth"} element={<GoogleOAuthRedirect />}></Route>
                 <Route path={"*"} element={<NotFound />}></Route>
             </Routes>

@@ -13,7 +13,7 @@ public class MemberProgress {
 
     /*학습자차시번호*/
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long progNo;
 
     /*온라인강좌구분[LMB210]*/
