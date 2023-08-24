@@ -16,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class MemberRequestDto {
+    private Long memId;
     private String userId;
     private String password;
     private String name;
@@ -30,6 +31,7 @@ public class MemberRequestDto {
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
+                .memId(memId)
                 .userId(userId)
                 .password(passwordEncoder.encode(password))
                 .name(name)

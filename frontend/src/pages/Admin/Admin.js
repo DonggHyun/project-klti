@@ -35,7 +35,8 @@ export default function Admin({ renderAdminComponent }) {
         )
     } else {
         return (
-            <></>
+            <>
+            </>
         )
     }
 }
