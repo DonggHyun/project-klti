@@ -1,18 +1,33 @@
 import {useState} from "react";
 import axios from "axios";
 import {retrieveStoredToken} from "../../auth-action";
+import {Container, FormLabel, Row, Form, Button} from "react-bootstrap";
 
 export default function ContentInsertPopup() {
 
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [file, setFile] = useState(null);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
     };
 
-    const handleUpload = () => {
+    const handleTitleChange = (e) => {
+        console.log(e.target.value);
+        setTitle(e.target.value);
+    }
+
+    const handleDescriptionChange = (e) => {
+        console.log(e.target.value);
+        setDescription(e.target.value);
+    }
+
+    const submit = () => {
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        formData.append('file', file);
+        formData.append('title', title);
+        formData.append('description', description);
 
         axios.post('/api/contents', formData, {
             headers: {
@@ -31,8 +46,12 @@ export default function ContentInsertPopup() {
     return (
 
         <>
+            <Form.Control></Form.Control>
             <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload</button>
+            <input type="text" onChange={handleTitleChange} />
+            <textarea onChange={handleDescriptionChange} />
+
+            <button onClick={submit}>Upload</button>
         </>
 
     )

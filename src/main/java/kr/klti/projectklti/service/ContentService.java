@@ -16,6 +16,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTubeScopes;
 import com.google.api.services.youtube.model.Video;
+import com.google.api.services.youtube.model.VideoContentDetails;
 import com.google.api.services.youtube.model.VideoSnippet;
 import com.google.api.services.youtube.model.VideoStatus;
 import com.google.common.collect.Lists;
@@ -24,6 +25,10 @@ import kr.klti.projectklti.dto.ContentDto;
 import kr.klti.projectklti.repository.ContentRepository;
 import kr.klti.projectklti.util.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import net.bramp.ffmpeg.probe.FFmpegStream;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,20 +77,29 @@ public class ContentService {
         String subject = SecurityUtil.getCurrentMemberId();
         YouTube youtubeService = googleOAuthService.getYouTubeService(subject);
 
+        FFmpeg ffmpeg = new FFmpeg("src/main/resources/ffmpeg/bin/ffmpeg.exe");
+        FFprobe ffprobe = new FFprobe("src/main/resources/ffmpeg/bin/ffprobe.exe");
+        FFmpegProbeResult probeResult = ffprobe.probe(filePath);
+        FFmpegStream videoStream = probeResult.getStreams().get(0);
+        long durationInSeconds = Math.round(videoStream.duration); // 영상 길이
+        System.out.println("동영상 길이: "+durationInSeconds);
+
         // 업로드할 동영상 정보 설정
         Video video = new Video();
         VideoSnippet snippet = new VideoSnippet();
         snippet.setTitle("test video");
         snippet.setDescription("test description");
         video.setSnippet(snippet);
+
+        // 일부공개 설정
         VideoStatus status = new VideoStatus();
-        status.setPrivacyStatus("unlisted"); // 일부공개 설정
+        status.setPrivacyStatus("unlisted");
         video.setStatus(status);
 
         InputStreamContent mediaContent = new InputStreamContent("video/*", videoInputStream);
 
         YouTube.Videos.Insert videoInsert = youtubeService.videos()
-                .insert(Arrays.asList("snippet", "status"), video, mediaContent);
+                .insert(Arrays.asList("snippet", "status", "contentDetails"), video, mediaContent);
 
         // 업로드 진행상황 모니터링
         /*MediaHttpUploader uploader = videoInsert.getMediaHttpUploader();
@@ -114,10 +128,9 @@ public class ContentService {
 
         // 업로드 실행
         Video returnedVideo = videoInsert.execute();
-        System.out.println("Video uploaded: " + returnedVideo.getId());
+        System.out.println("Video uploaded: " + returnedVideo.toPrettyString());
 
         String contVideoId = returnedVideo.getId();     // video id
-        String contRuntime = returnedVideo.getContentDetails().getDuration();  // 동영상 길이
 
         // DB에 콘텐츠 데이터 저장하고 해당 데이터 리턴
         ContentDto content = ContentDto.builder()
@@ -126,7 +139,7 @@ public class ContentService {
                 .contThumbnail(0)
                 .contFile(0)
                 .contVideoId(contVideoId)
-                .contRuntime(Long.valueOf(contRuntime)).build();
+                .contRuntime(durationInSeconds).build();
         insertContent(content);
 
         return contVideoId;
