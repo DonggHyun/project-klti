@@ -1,16 +1,31 @@
 import React from "react";
-import './ContentInsertPopup.css';
+import style from './AdminPopup.module.css';
+import {Col, Container, Row} from "react-bootstrap";
+import ContentInfo from "../ContentInfo/ContentInfo";
+import ContentInsertPopup from "../ContentInsertPopup/ContentInsertPopup";
 
-export default function ContentInsertPopup({closePopup}) {
+export default function AdminPopup({closePopup, page}) {
+
+    function renderPopupContent() {
+        if(page === 'ContentInsert') {
+            return (
+                <ContentInsertPopup />
+            )
+        }
+    }
+
 
 
     return (
-        <div className="popup-overlay">
-            <div className="popup-container">
-                <div className="popup-inner">
-                    <button className="popup-close" onClick={closePopup}>X</button>
-                </div>
-            </div>
+        <div className={style.popup_overlay}>
+            <Container>
+                <Row className="justify-content-center">
+                    <Col lg={10} className={style.popup_container}>
+                        {renderPopupContent()}
+                        <button className={style.popup_close} onClick={closePopup}>X</button>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     )
 }
