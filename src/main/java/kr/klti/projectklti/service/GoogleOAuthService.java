@@ -6,11 +6,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 /*import com.google.api.client.json.jackson2.JacksonFactory;*/
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.youtube.YouTube;
 import kr.klti.projectklti.util.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -36,6 +38,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -255,17 +258,37 @@ public class GoogleOAuthService implements ResourceLoaderAware {
         return ResponseEntity.ok("Google Access Token Saved");
     }
 
-    // 특정 사용자의 식별자로 구글액세스토큰 얻어오기
+    /* 특정 사용자의 식별자로 구글액세스토큰 얻어오기 */
     public String getGoogleAccessToken(String subject) {
         String key = "googleAccessToken:" + subject;
         return redisTemplate.opsForValue().get(key);
     }
 
-    // 특정 사용자의 식별자로 구글액세스토큰 삭제하기
+    /* 특정 사용자의 식별자로 구글액세스토큰 삭제하기 */
     public void deleteGoogleAccessToken(String subject) {
         String key = "googleAccessToken:" + subject;
         redisTemplate.delete(key);
     }
+
+    /* 구글액세스토큰으로 Credential 객체 생성 */
+    public static Credential createCredentialFromAccessToken(String accessToken) {
+        GoogleCredential credential = new GoogleCredential();
+        credential.setAccessToken(accessToken);
+        return credential;
+    }
+
+    /* 구글액세스토큰으로 유튜브 서비스 초기화 */
+    public YouTube getYouTubeService(String subject) throws IOException, GeneralSecurityException {
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+
+        Credential credential = createCredentialFromAccessToken(getGoogleAccessToken(subject));
+
+        return new YouTube.Builder(httpTransport, JSON_FACTORY, credential)
+                .setApplicationName("klti")
+                .build();
+    }
+
 
 
 

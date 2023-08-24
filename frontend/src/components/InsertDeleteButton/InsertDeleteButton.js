@@ -1,9 +1,9 @@
 import {Button, Container, Row, Stack, Form, Col} from "react-bootstrap";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {retrieveStoredToken} from "../../auth-action";
 
 
-export default function InsertDeleteButton({page}) {
+export default function InsertDeleteButton({page, openPopup}) {
 
     function plusItem() {
 
@@ -16,21 +16,18 @@ export default function InsertDeleteButton({page}) {
                 }
             })
                 .then(response => {
-                    if (response.status !== 200) {
-                        // 토큰이 없거나 만료된 경우
-                        alert('콘텐츠 추가는 업로드 인증 후 가능합니다');
-                        return;
+                    if (response.status === 200) {
+                        openPopup();
                     }
                 })
                 .catch(error => {
                     console.error('Error :', error);
+                    if (error.response.status === 401) {
+                        // 토큰이 없거나 만료된 경우 401 에러 반환
+                        alert('콘텐츠 추가는 업로드 인증 후 가능합니다');
+                    }
                 });
         }
-
-        alert('신규 데이터 추가');
-
-
-
     }
 
 
