@@ -31,9 +31,11 @@ const ContentGrid = React.forwardRef((props, ref) => {
     //     }
     // }
 
+    const { setContent, ...otherProps } = props;
+
     const key = (event) => {
         const rowData = props.data[event.rowKey]; // 클릭한 행의 데이터 얻기
-        console.log(rowData);
+        setContent(rowData);
     }
 
 
@@ -44,7 +46,7 @@ const ContentGrid = React.forwardRef((props, ref) => {
                 ref={ref}
                 rowHeight={25}
                 bodyHeight={100}
-                onGridRowClick={key}
+                onClick={key}
                 {...props}
             />
         </>
