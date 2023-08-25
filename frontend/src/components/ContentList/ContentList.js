@@ -7,33 +7,13 @@ import axios from "axios";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 import ContentGrid from "./ContentGrid";
 
-export default function ContentList() {
+export default function ContentList({data, go, getContentList}) {
 
     const gridRef = useRef();
 
-    const [data, setData] = useState([]);
-    const [go, setGo] = useState(false);
-
     /* 콘텐츠 목록 data 가져오기 */
     useEffect(() => {
-
-        axios.get('http://localhost:8080/api/contents', {
-            headers: {
-                'Authorization': 'Bearer ' + retrieveStoredToken().token
-            }
-        })
-            .then(response => {
-                console.log(response);
-                if (response.status === 200) {
-                    setData(response.data);
-                }
-
-            })
-            .catch(error => {
-                console.error('Error :', error);
-            });
-
-        setGo(true);
+        getContentList();
     }, []);
 
 
