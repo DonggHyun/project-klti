@@ -7,7 +7,7 @@ import axios from "axios";
 import {loginTokenHandler, retrieveStoredToken} from "../../auth-action";
 import ContentGrid from "./ContentGrid";
 
-export default function ContentList({data, go, getContentList}) {
+export default function ContentList({data, go, getContentList, setContent}) {
 
     const gridRef = useRef();
 
@@ -71,7 +71,7 @@ export default function ContentList({data, go, getContentList}) {
 
     return (
         <div className={style.container} id="grid_tui">
-            {go ? <ContentGrid data={data} {...gridConfig} /> : <p>Loading...</p>}
+            {go ? <ContentGrid data={data} {...gridConfig} setContent={setContent} /> : <p>Loading...</p>}
         </div>
     )
 }

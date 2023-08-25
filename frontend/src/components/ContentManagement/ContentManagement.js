@@ -20,6 +20,9 @@ export default function ContentManagement() {
     /* 그리드 렌더링 기준 */
     const [go, setGo] = useState(false);
 
+    /* 개별 콘텐츠 상세 데이터 */
+    const [content, setContent] = useState(null);
+
     /* 팝업 상태 관리용 변수 */
     const [showPopup, setShowPopup] = useState(false);
 
@@ -47,6 +50,8 @@ export default function ContentManagement() {
 
 
 
+
+
     const openPopup = () => {
         setShowPopup(true);
     };
@@ -71,10 +76,10 @@ export default function ContentManagement() {
             <Container className="mt-2">
                 <Row>
                     <Col sm={7} className={style.column}>
-                        <ContentList data={data} go={go} getContentList={getContentList} />
+                        <ContentList data={data} go={go} getContentList={getContentList} setContent={setContent} />
                     </Col>
                     <Col sm={5} className={style.column}>
-                        <ContentInfo />
+                        <ContentInfo content={content} />
                     </Col>
                 </Row>
             </Container>
