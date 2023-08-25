@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class MemberResponseDto {
+    private Long memId;
     private String userId;
     private String password;
     private String name;
@@ -24,11 +25,12 @@ public class MemberResponseDto {
     private String createReq;
 
 
-    public MemberResponseDto(String userId,String password,String name,
+    public MemberResponseDto(Long memId, String userId,String password,String name,
                              String birth,String gender,String userEmail,
                              String changePassword,String pwYN, int pwErrCnt,
                              LocalDateTime lastLoginDate,String createReq) {
 
+        this.memId = memId;
         this.userId = userId;
         this.password = password;
         this.name = name;
@@ -44,6 +46,7 @@ public class MemberResponseDto {
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
+                .memId(member.getMemId())
                 .userId(member.getUserId())
                 .password(member.getPassword())
                 .name(member.getName())

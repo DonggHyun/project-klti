@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @AllArgsConstructor
-
 public class LectureDto {
 
     private Long lectNo;

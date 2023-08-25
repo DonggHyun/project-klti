@@ -9,8 +9,10 @@ import Card from 'react-bootstrap/Card';
 
 import './StudentLecture.css';
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import YouTube from "react-youtube";
+import axios from "axios";
+import {retrieveStoredToken} from "../../auth-action";
 // import YoutubeEmbed from "./YoutubeEmbed";
 
 export default function StudentLecture() {
@@ -32,10 +34,46 @@ export default function StudentLecture() {
     //진체진도율 표시 위한 변수 선언
     const now = 60;
 
-    //유튜브 재생목록 가져오기
+    const [userInfo, setUserInfo] = useState("");
+    const [lectureList, setLectureList] = useState([]);
+
+    useEffect(() => {
+        //member정보 가져오기
+        axios.get('http://localhost:8080/api/auth/me', {
+            headers: {
+                Authorization: `Bearer ${retrieveStoredToken().token}`
+            }
+        })
+            .then(response => {
+                const userInfo = response.data;
+                setUserInfo(userInfo);
+                console.log("유저의 memId : "+userInfo.memId)
+                //member정보로 수강중인 강의목록 가져오기
+                axios.get(`http://localhost:8080/api/lecture/studentLectureList/`, {
+                    headers: {
+                        Authorization: `Bearer ${retrieveStoredToken().token}`
+                    },
+                    params: {
+                        memId:userInfo.memId
+                    }
+                })
+
+                    .then(studentResponse => {
+                        const lectureList = studentResponse.data;
+                        setLectureList(lectureList);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
 
 
     return (
+
         <Container>
             <Row>
                 <Col xl>
@@ -49,7 +87,8 @@ export default function StudentLecture() {
                             </Card.Text>
                         </Card.Body>
                     </Card>
-                    <br />
+
+
                     <Accordion>
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>기초미디어 번역이론(2023-07-01 ~ 2023-08-31)</Accordion.Header>
@@ -300,7 +339,8 @@ export default function StudentLecture() {
             {showPopup && (
                 <div className="popup-overlay">
                     <div className="popup-container">
-                        <YoutubeEmbed embedId="Zoo9klcgjRs" saveProgress={savePlaybackProgress} initialPosition={finalPosition}/>
+                        <YoutubeEmbed embedId="Zoo9klcgjRs" saveProgress={savePlaybackProgress}
+                                      initialPosition={finalPosition}/>
                         <button className="popup-close" onClick={closePopup}>X</button>
                     </div>
                 </div>
@@ -309,7 +349,7 @@ export default function StudentLecture() {
     );
 }
 
-function YoutubeEmbed({ embedId, saveProgress, initialPosition }) {
+function YoutubeEmbed({embedId, saveProgress, initialPosition}) {
     const [player, setPlayer] = useState(null);
 
     const opts = {
