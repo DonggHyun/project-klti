@@ -68,7 +68,7 @@ public class ContentService {
 
 
     /* 콘텐츠 유튜브 업로드 */
-    public String uploadFile(String filePath) throws GeneralSecurityException, IOException {
+    public String uploadFile(String filePath, String title, String description) throws GeneralSecurityException, IOException {
         System.out.println("Content Service 입장");
 
         File savedFile = new File(filePath);
@@ -87,8 +87,8 @@ public class ContentService {
         // 업로드할 동영상 정보 설정
         Video video = new Video();
         VideoSnippet snippet = new VideoSnippet();
-        snippet.setTitle("test video");
-        snippet.setDescription("test description");
+        snippet.setTitle(title);
+        snippet.setDescription(description);
         video.setSnippet(snippet);
 
         // 일부공개 설정
@@ -134,8 +134,8 @@ public class ContentService {
 
         // DB에 콘텐츠 데이터 저장하고 해당 데이터 리턴
         ContentDto content = ContentDto.builder()
-                .contName("0824 test")
-                .contDesc("0824 testtt")
+                .contName(title)
+                .contDesc(description)
                 .contThumbnail(0)
                 .contFile(0)
                 .contVideoId(contVideoId)

@@ -45,10 +45,12 @@ public class ContentController {
 
     /* 콘텐츠 등록 */
     @PostMapping
-    public ContentDto uploadFile(@RequestParam("file") MultipartFile file) throws GeneralSecurityException, IOException {
+    public ContentDto uploadFile(@RequestParam("file") MultipartFile file,
+                                 @RequestParam("title") String title,
+                                 @RequestParam("description") String description) throws GeneralSecurityException, IOException {
         System.out.println("Content Controller 입장");
         String filePath = contentService.saveVideoFile(file);
-        String contVideoId = contentService.uploadFile(filePath);
+        String contVideoId = contentService.uploadFile(filePath, title, description);
         return contentService.getContentByContVideoId(contVideoId);
     }
 
